@@ -1,5 +1,7 @@
 import {useState} from 'react';
 import "../css/login.css";
+import Logo from "../assets/logo.png";
+import google from "../assets/google.png";
 import "../components/button";
 
 function Login() {
@@ -21,6 +23,7 @@ function Login() {
 return(
     <div className="container">
     <form onSubmit={handleLogin} className="login-form">
+        <img src={Logo} alt="Logo" className="logo" />
             <h2>Login</h2>
 
             <input
@@ -36,11 +39,13 @@ return(
                 onChange={(e) => setPassword(e.target.value)}
             />
 
-            <span 
-            className="punya-akun">Belum punya akun? 
-            <a href="/register">Daftar</a> 
-            <a href="/forgot-password">Lupa Password?</a>
-            </span>
+            <div className="akun">
+                <span>Belum punya akun?
+                <a href="#">Daftar</a>
+                 </span>
+
+                <a href="#" class="forgot-password">Lupa kata sandi?</a>
+           </div>
 
             <div className='mb-3'>
                 <button type="submit" variant="primary" fullWidth disabled={submitting}>
@@ -52,7 +57,7 @@ return(
             <p className="atau">Atau</p>
 
 
-            <button type="button" className="login-google">Login dengan Google</button>
+            <button type="button" className="login-google"> <img src={google} alt="Google Logo"></img> Login dengan Google</button>
         </form>
     </div>
 );

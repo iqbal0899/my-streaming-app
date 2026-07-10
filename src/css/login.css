@@ -23,9 +23,18 @@ body {
   width: 350px;
 }
 
+.login-form .logo {
+  display: block;
+  margin: 0 auto 20px auto;
+  width: 94px;
+  height: 24px;
+}
+
 .login-form h2 {
   color: white;
   margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 700; 
   text-align: center;
 }
 
@@ -37,29 +46,68 @@ body {
   border-radius: 5px;
 }
 
-.login-form span {
-  color: white;
-  font-size: 16px;
-  display: block;
-  margin-bottom: 10px;
-  font-weight: 400;
+.login-form p {
+  color: #bdbdbd;
+  font-size: 12px;
+  margin: 10px 0;
+  text-align: center;
 }
 
-.login-form p{
-    color: white;
-    font-size: 14px;
-    text-align: center;
-    margin: 10px 0;
+.akun {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-size: 10px;
+}
+
+.akun {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-size: 10px;
+ margin-bottom: 10px;
+}
+
+.akun span {
+    color: #bdbdbd;
+    font-size: 10px;
+}
+
+.akun span a {
+    margin-left: 8px; /* Jarak Belum punya akun? dengan Daftar */
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.akun a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-form .or-separator {
+  text-align: center;
+  margin: 10px 0;
+  color: white;
+  font-size: 10px;
+font-weight: 500;
 }
 
 .login-form button {
   width: 100%;
   padding: 12px;
-  background: crimson;
+  background: rgb(24, 1, 158);
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.login-form button.login-google img{
+  width: 20px;
+  height: 20px;
+  padding-right: 0px;
 }
 
 .login-form button:hover {
