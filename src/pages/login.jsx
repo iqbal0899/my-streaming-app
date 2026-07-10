@@ -1,12 +1,15 @@
 import {useState} from 'react';
 import "../css/login.css";
+import "../components/button";
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+   const [submitting, setSubmitting] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setSubmitting(true);
 
     if (email === 'admin@gmail.com' && password === 'password') {
         alert('Login successful!');
@@ -39,7 +42,11 @@ return(
             <a href="/forgot-password">Lupa Password?</a>
             </span>
 
-            <button type="submit">Login</button>
+            <div className='mb-3'>
+                <button type="submit" variant="primary" fullWidth disabled={submitting}>
+                    {submitting ? 'Loading...' : 'Login'}
+                </button>
+            </div>
 
 
             <p className="atau">Atau</p>
