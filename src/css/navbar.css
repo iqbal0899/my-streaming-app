@@ -8,20 +8,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 8%;
-    background: #111;
+    padding: 15px 5%;
+    background: #292828;
     color: white;
 }
 
-.logo h2 {
+.nav-logo img {
     color: #ff2d55;
     cursor: pointer;
+    width: 70px;
 }
 
 .nav-links {
     display: flex;
     list-style: none;
     gap: 30px;
+    align-items:flex-start;
 }
 
 .nav-links a {

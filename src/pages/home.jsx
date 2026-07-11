@@ -1,23 +1,18 @@
 
-import { useState } from "react";
-import "../components/button";
+import "../css/home.css"
+import Navbar from "../components/navbar";
+import Login from "../pages/login"
+import Footer from "../components/footer"
 
 function Home() {
-   const [submitting, setSubmitting] = useState(false);
-
-  const handleHome = (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-
-};
 
 return(
 
-     <div className='mb-3'>
-                <button type="submit" variant="primary" fullWidth disabled={submitting}>
-                    {submitting ? 'Loading...' : 'Masuk'}
-                </button>
-            </div>
+<div>
+    <Navbar />
+    <Login />
+    <Footer />
+</div>
 
  );
 }
