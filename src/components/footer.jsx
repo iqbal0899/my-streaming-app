@@ -1,6 +1,6 @@
-import { useState } from "react";
-import "../css/footer.css";
-import Logo from "../assets/Logo.png";
+import { useState, useRef, useEffect } from "react";
+import "../css/footer.css"
+import Logo from "../assets/logo.png";
 
 const GENRES = [
   "Aksi", "Drama", "Komedi", "Horor", "Thriller",
@@ -10,32 +10,42 @@ const GENRES = [
 
 const BANTUAN = ["FAQ", "Kontak Kami", "Privasi", "Syarat dan Ketentuan"];
 
-function FooterSection({ title, isOpen, onToggle, children }) {
+function FooterDropdown({ title, isOpen, onToggle, children }) {
+  const wrapperRef = useRef(null);
+
+  // Tutup dropdown saat klik di luar area (khusus mode mobile)
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        onToggle(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen, onToggle]);
+
   return (
-    <div className="footer-section">
+    <div className="footer-dropdown" ref={wrapperRef}>
+      {/* Trigger box, hanya tampil di mobile (mode dropdown) */}
       <button
         type="button"
-        className="footer-section__toggle"
-        onClick={onToggle}
+        className="footer-dropdown__trigger"
+        onClick={() => onToggle(!isOpen)}
         aria-expanded={isOpen}
+        aria-haspopup="true"
       >
         <span>{title}</span>
-        <svg
-          className={`footer-section__chevron ${isOpen ? "is-open" : ""}`}
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
+       <img src={Logo} alt="logo" className="logo"/>
       </button>
 
-      <h3 className="footer-section__title">{title}</h3>
+      {/* Judul statis, hanya tampil di desktop */}
+      <h3 className="footer-dropdown__title">{title}</h3>
 
-      <div className={`footer-section__content ${isOpen ? "is-open" : ""}`}>
+      {/* Panel: overlay melayang di mobile, kolom statis di desktop */}
+      <div className={`footer-dropdown__panel ${isOpen ? "is-open" : ""}`}>
         {children}
       </div>
     </div>
@@ -43,10 +53,15 @@ function FooterSection({ title, isOpen, onToggle, children }) {
 }
 
 export default function Footer() {
-  const [openSection, setOpenSection] = useState(null);
+  const [openMenu, setOpenMenu] = useState(null);
 
-  const toggleSection = (name) => {
-    setOpenSection((prev) => (prev === name ? null : name));
+  const toggleMenu = (name, forceState) => {
+    setOpenMenu((prev) => {
+      if (typeof forceState === "boolean") {
+        return forceState ? name : null;
+      }
+      return prev === name ? null : name;
+    });
   };
 
   return (
@@ -56,7 +71,7 @@ export default function Footer() {
           {/* Logo & Copyright */}
           <div className="footer__brand">
             <div className="footer__logo">
-            <img src={Logo} alt='logo' className='logo'></img>
+              <img src={Logo} alt="logo" className="logo"/>
             </div>
             <p className="footer__copyright">
               &copy; {new Date().getFullYear()} Chill. All Right Reserved.
@@ -64,10 +79,10 @@ export default function Footer() {
           </div>
 
           {/* Genre */}
-          <FooterSection
+          <FooterDropdown
             title="Genre"
-            isOpen={openSection === "genre"}
-            onToggle={() => toggleSection("genre")}
+            isOpen={openMenu === "genre"}
+            onToggle={(state) => toggleMenu("genre", state)}
           >
             <div className="footer__genres">
               {GENRES.map((genre) => (
@@ -76,13 +91,13 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-          </FooterSection>
+          </FooterDropdown>
 
           {/* Bantuan */}
-          <FooterSection
+          <FooterDropdown
             title="Bantuan"
-            isOpen={openSection === "bantuan"}
-            onToggle={() => toggleSection("bantuan")}
+            isOpen={openMenu === "bantuan"}
+            onToggle={(state) => toggleMenu("bantuan", state)}
           >
             <ul className="footer__list">
               {BANTUAN.map((item) => (
@@ -93,7 +108,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </FooterSection>
+          </FooterDropdown>
         </div>
 
         <div className="footer__bottom">

@@ -14,13 +14,13 @@
 .footer__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 8px;
+  gap: 12px;
 }
 
 /* ===== Brand / Logo / Copyright ===== */
 
 .footer__brand {
-  padding-bottom: 24px;
+  padding-bottom: 8px;
 }
 
 .footer__logo {
@@ -29,8 +29,8 @@
   gap: 8px;
 }
 
-.footer__logo-icon {
-  color: #f2b544;
+.footer__logo img{
+  width: 84px;
   flex-shrink: 0;
 }
 
@@ -40,20 +40,21 @@
   color: #ffffff;
 }
 
-/* ===== Section (Genre / Bantuan) shared styles ===== */
+/* ===== Dropdown (Genre / Bantuan) — mobile default ===== */
 
-.footer-section {
-  border-bottom: 1px solid #27272a;
+.footer-dropdown {
+  position: relative;
 }
 
-.footer-section__toggle {
+.footer-dropdown__trigger {
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0;
-  background: none;
-  border: none;
+  padding: 14px 16px;
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
@@ -62,37 +63,47 @@
   color: #e7e5e4;
 }
 
-.footer-section__title {
-  display: none;
-  margin: 0 0 20px;
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #e7e5e4;
+.footer-dropdown__trigger:hover {
+  border-color: #3f3f46;
 }
 
-.footer-section__chevron {
+.footer-dropdown__title {
+  display: none;
+}
+
+.footer-dropdown__chevron {
   color: #f2b544;
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
   flex-shrink: 0;
 }
 
-.footer-section__chevron.is-open {
+.footer-dropdown__chevron.is-open {
   transform: rotate(180deg);
 }
 
-.footer-section__content {
-  max-height: 0;
+/* Panel melayang di atas konten (dropdown box) khusus mobile */
+.footer-dropdown__panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+
+  visibility: hidden;
   opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease, padding-bottom 0.3s ease;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
 }
 
-.footer-section__content.is-open {
-  max-height: 500px;
+.footer-dropdown__panel.is-open {
+  visibility: visible;
   opacity: 1;
-  padding-bottom: 20px;
+  transform: translateY(0);
 }
 
 /* ===== Genre chips ===== */
@@ -151,7 +162,7 @@
   color: #57534e;
 }
 
-/* ===== Desktop layout (>= 768px) ===== */
+/* ===== Desktop layout (>= 768px): kembali ke kolom statis ===== */
 
 @media (min-width: 768px) {
   .footer__container {
@@ -161,31 +172,34 @@
   .footer__grid {
     grid-template-columns: 1.2fr 1.4fr 1.4fr;
     gap: 48px;
+    align-items: start;
   }
 
-  .footer__brand {
-    padding-bottom: 0;
-  }
-
-  .footer-section {
-    border-bottom: none;
-  }
-
-  /* Hide the mobile accordion trigger, show static title + content */
-  .footer-section__toggle {
+  .footer-dropdown__trigger {
     display: none;
   }
 
-  .footer-section__title {
+  .footer-dropdown__title {
     display: block;
+    margin: 0 0 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #e7e5e4;
   }
 
-  .footer-section__content,
-  .footer-section__content.is-open {
-    max-height: none;
+  .footer-dropdown__panel,
+  .footer-dropdown__panel.is-open {
+    position: static;
+    visibility: visible;
     opacity: 1;
-    overflow: visible;
-    padding-bottom: 0;
+    transform: none;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
   }
 
   .footer__bottom {
