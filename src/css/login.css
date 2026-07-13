@@ -7,20 +7,27 @@
 
 body {
   background: #141414;
+
 }
 
 .container {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-image: url('../assets/img/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .login-form {
   background: #222;
   padding: 40px;
-  border-radius: 10px;
+  border-radius: 8px;
   width: 350px;
+  opacity: 80%;
 }
 
 .login-form .logo {
@@ -36,14 +43,22 @@ body {
   font-size: 18px;
   font-weight: 700; 
   text-align: center;
+  background-color: #222;
+}
+
+.login-form h3{
+  color: #fff;
+  font-size: 10px;
+  background-color: #222;
+  margin-bottom: 10px;
 }
 
 .login-form input {
   width: 100%;
-  padding: 12px;
+  padding: 14px 20px;
   margin-bottom: 15px;
-  border: none;
-  border-radius: 5px;
+  border: 1px solid white;
+  border-radius: 24px;
 }
 
 .login-form p {
@@ -97,17 +112,22 @@ font-weight: 500;
 .login-form button {
   width: 100%;
   padding: 12px;
-  background: rgb(24, 1, 158);
+  background-color: #3d4142;
   color: white;
-  border: none;
-  border-radius: 5px;
+  border: 2px solid white;
+  border-radius: 14px;
   cursor: pointer;
+  opacity: 100%;
+}
+
+.login-form button.login-google{
+  background-color: #222;
 }
 
 .login-form button.login-google img{
   width: 20px;
   height: 20px;
-  padding-right: 0px;
+  padding-right: 0px;;
 }
 
 .login-form button:hover {

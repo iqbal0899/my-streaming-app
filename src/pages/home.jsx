@@ -1,7 +1,7 @@
 
 import "../css/home.css"
 import Navbar from "../components/navbar";
-import Login from "../pages/login"
+import Hero from "../components/hero-content";
 import Footer from "../components/footer"
 
 function Home() {
@@ -10,7 +10,7 @@ return(
 
 <div>
     <Navbar />
-    <Login />
+    <Hero />
     <Footer />
 </div>
 

@@ -2,6 +2,7 @@ import {useState} from 'react';
 import "../css/login.css";
 import Logo from "../assets/logo.png";
 import google from "../assets/google.png";
+import bg from "../assets/img/bg.jpg";
 import "../components/button";
 
 function Login() {
@@ -13,7 +14,7 @@ function Login() {
     e.preventDefault();
     setSubmitting(true);
 
-    if (email === 'admin@gmail.com' && password === 'password') {
+    if (email === '' && password === '') {
         alert('Login successful!');
     }else{
         alert('Email atau Password Salah');
@@ -24,17 +25,19 @@ return(
     <div className="container">
     <form onSubmit={handleLogin} className="login-form">
         <img src={Logo} alt="Logo" className="logo" />
-            <h2>Login</h2>
+            <h2>Masuk</h2>
 
+            <h3>Username</h3>
             <input
                 type="email"
-                placeholder="Masukan Email"
+                placeholder="Username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
+            <h3>Kata Sandi</h3>
             <input
                 type="password"
-                placeholder="Masukan Password"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />

@@ -1,0 +1,128 @@
+   .thc-wrap {
+          font-family: 'Inter', ui-sans-serif, system-ui;
+          --thc-blue: #1F5FE0;
+        }
+ 
+        .thc-card {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 21 / 9;
+          border-radius: 4px;
+          overflow: hidden;
+          color: #fff;
+          background:
+            radial-gradient(ellipse 70% 60% at 75% 15%, rgba(60,80,50,0.35), transparent 60%),
+            linear-gradient(105deg, #1c2b22 0%, #223226 35%, #35402f 60%, #4a5240 80%, #6b6f52 100%);
+        }
+ 
+        /* placeholder scene: replace via the backgroundImage prop with a licensed still */
+        .thc-card .thc-bg {
+          position: absolute;
+          inset: 0;
+          background-image: ${backgroudImage ? url('../assets/img/bg.png')} {: "none"};
+          background-size: cover;
+          background-position: center 30%;
+          filter: saturate(0.85) contrast(1.05);
+        }
+ 
+        .thc-card .thc-fog {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 60% 50% at 20% 20%, rgba(255,255,255,0.06), transparent 60%),
+            linear-gradient(180deg, rgba(10,14,10,0.15) 0%, rgba(8,10,8,0.55) 55%, rgba(4,5,4,0.92) 100%),
+        }
+ 
+        .thc-content {
+          position: absolute;
+          left: clamp(16px, 3.5vw, 40px);
+          bottom: clamp(14px, 3vw, 32px);
+          right: clamp(16px, 3.5vw, 40px);
+          max-width: 640px;
+        }
+ 
+        .thc-content h1 {
+          margin: 0 0 10px;
+          font-size: clamp(1.3rem, 3.2vw, 2.1rem);
+          font-weight: 800;
+          letter-spacing: -0.01em;
+          text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+ 
+        .thc-content p {
+          margin: 0 0 18px;
+          font-size: clamp(0.72rem, 1.3vw, 0.9rem);
+          line-height: 1.55;
+          color: rgba(255,255,255,0.88);
+          max-width: 54ch;
+          text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+        }
+ 
+        .thc-actions {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+ 
+        .thc-actions button {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-family: inherit;
+          border: none;
+          cursor: pointer;
+          transition: filter 0.15s ease, background 0.15s ease, transform 0.15s ease;
+        }
+ 
+        .thc-play {
+          background: var(--thc-blue);
+          color: #fff;
+          font-weight: 700;
+          font-size: clamp(0.75rem, 1.3vw, 0.9rem);
+          padding: 9px 18px;
+          border-radius: 4px;
+        }
+        .thc-play:hover { filter: brightness(1.12); }
+ 
+        .thc-info {
+          background: rgba(255,255,255,0.12);
+          backdrop-filter: blur(6px);
+          color: #fff;
+          font-size: clamp(0.75rem, 1.3vw, 0.9rem);
+          font-weight: 600;
+          padding: 9px 16px 9px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.35);
+        }
+        .thc-info:hover { background: rgba(255,255,255,0.2); }
+ 
+        .thc-rating {
+          background: transparent;
+          color: rgba(255,255,255,0.9);
+          font-size: clamp(0.7rem, 1.2vw, 0.82rem);
+          font-weight: 600;
+          width: 34px;
+          height: 34px;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.55);
+          justify-content: center;
+          cursor: default;
+        }
+ 
+        .thc-volume {
+          margin-left: auto;
+          background: rgba(0,0,0,0.35);
+          border: 1px solid rgba(255,255,255,0.4);
+          color: #fff;
+          width: 34px;
+          height: 34px;
+          border-radius: 999px;
+          justify-content: center;
+        }
+        .thc-volume:hover { background: rgba(0,0,0,0.5); }
+ 
+        @media (max-width: 480px) {
+          .thc-card { aspect-ratio: 4 / 5; }
+          .thc-volume { margin-left: 0; order: 5; }
+        }
