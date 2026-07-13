@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Play, Info, Volume2, VolumeX } from "lucide-react";
 import "../css/hero-content.css";
-import background from "../assets/img/duty-after-school.png";
+import Hero from "../assets/duty-after-school.png";
 
  
 export default function TitleHeroCard({
-  background,
+  background = Hero,
   title = "Duty After School",
   description =
     "Sebuah benda tak dikenal mengambil alih dunia. Dalam keputusasaan, Departemen Pertahanan mulai merekrut lebih banyak tentara, termasuk siswa sekolah menengah. Mereka pun segera menjadi pejuang garis depan dalam perang.",
@@ -16,8 +16,11 @@ export default function TitleHeroCard({
   return (
     <div className="thc-wrap">
         <div className="thc-card">
-        <div className="thc-bg" /> 
-        <TitleHeroCard backgroundImage={background} />
+        <div className="thc-bg"  
+         style={{
+            backgroundImage: `url(${background})`,
+          }}
+          /> 
         <div className="thc-fog" />
         
  

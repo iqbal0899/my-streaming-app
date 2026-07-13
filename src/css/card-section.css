@@ -1,0 +1,140 @@
+.cs-section {
+  --cs-bg: #0b0c10;
+  --cs-blue: #1f5fe0;
+  font-family: 'Inter', ui-sans-serif, system-ui;
+  padding: 22px clamp(16px, 3.5vw, 40px);
+  border-radius: 6px;
+}
+
+/* garis putus-putus biru dipakai khusus untuk section pertama pada gambar acuan */
+.cs-highlighted {
+  border: 1px dashed var(--cs-blue);
+}
+
+.cs-title {
+  margin: 0 0 14px;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.cs-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cs-track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 2px 4px;
+}
+.cs-track::-webkit-scrollbar {
+  display: none;
+}
+
+.cs-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(20, 20, 24, 0.85);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.cs-nav:hover {
+  background: rgba(20, 20, 24, 1);
+  transform: scale(1.05);
+}
+.cs-nav-left {
+  left: -6px;
+}
+.cs-nav-right {
+  right: -6px;
+}
+
+.cs-card {
+  flex: 0 0 auto;
+  width: clamp(150px, 18vw, 210px);
+  scroll-snap-align: start;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #16171c;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.cs-card:hover {
+  transform: translateY(-4px);
+}
+
+.cs-poster {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background-size: cover;
+  background-position: center;
+}
+
+.cs-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--cs-blue);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.cs-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px 10px;
+}
+
+.cs-name {
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #f2c94c;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.cs-star {
+  fill: #f2c94c;
+  stroke: #f2c94c;
+}
+
+@media (max-width: 520px) {
+  .cs-nav {
+    display: none;
+  }
+  .cs-card {
+    width: 130px;
+  }
+}

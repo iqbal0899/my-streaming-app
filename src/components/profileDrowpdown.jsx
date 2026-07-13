@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "../css/profileDropdown.css"
-import profile from "../assets/img/big-hero.png";
+import profile from "../assets/big-hero.png";
 
 function ProfileDropdown() {
   const [open, setOpen] = useState(false);
