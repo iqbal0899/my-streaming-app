@@ -1,0 +1,119 @@
+.tf-wrap {
+          --bg: #222;
+          --bg-soft: #222;
+          --border: #222;
+          --text: #eef2f8;
+          --text-dim: #9fb0c7;
+          --accent: #2f6fed;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          background: var(--bg);
+          padding: 16px 8px 20px;
+          border-radius: 16px;
+          box-sizing: border-box;
+        }
+        .tf-wrap * { box-sizing: border-box; }
+ 
+        .tf-heading {
+          color: var(--text);
+          font-size: 16px;
+          font-weight: 700;
+          margin: 2px 6px 12px;
+          letter-spacing: 0.1px;
+        }
+ 
+        .tf-row {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+ 
+        .tf-nav {
+          flex: 0 0 auto;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          border: 1px solid var(--border);
+          background: rgba(255,255,255,0.05);
+          color: var(--text);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+        }
+        .tf-nav:hover:not(:disabled) {
+          background: rgba(255,255,255,0.14);
+          transform: scale(1.05);
+        }
+        .tf-nav:disabled {
+          opacity: 0.25;
+          cursor: default;
+        }
+ 
+        .tf-track {
+          display: flex;
+          gap: 14px;
+          overflow-x: auto;
+          scroll-snap-type: x proximity;
+          scroll-behavior: smooth;
+          padding: 4px 2px 6px;
+          flex: 1 1 auto;
+          scrollbar-width: thin;
+          scrollbar-color: var(--border) transparent;
+        }
+        .tf-track::-webkit-scrollbar { height: 6px; }
+        .tf-track::-webkit-scrollbar-thumb {
+          background: var(--border);
+          border-radius: 4px;
+        }
+ 
+        .tf-card {
+          position: relative;
+          flex: 0 0 auto;
+          width: 234px;
+          height: 365px;
+          aspect-ratio: 2 / 3;
+          border-radius: 12px;
+          overflow: hidden;
+          scroll-snap-align: start;
+          background: var(--bg-soft);
+          border: 1px solid var(--border);
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .tf-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 22px rgba(0,0,0,0.5);
+        }
+ 
+        .tf-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+ 
+        .tf-badge {
+          position: absolute;
+          top: 8px;
+          left: 8px;
+          background: #0f1e93;
+          color: #fff;
+          font-size: 10.5px;
+          font-weight: 700;
+          padding: 3px 8px;
+          border-radius: 999px;
+          letter-spacing: 0.2px;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+        }
+ 
+        .tf-badge.top10 {
+          background: #ffb020;
+          color: #1a1200;
+        }
+ 
+        @media (max-width: 640px) {
+          .tf-card { width: 108px; }
+          .tf-nav { width: 28px; height: 28px; }
+          .tf-heading { font-size: 14px; }
+        }
