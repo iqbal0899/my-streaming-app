@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "../css/profileDropdown.css"
 import profile from "../assets/big-hero.png";
 
-function ProfileDropdown() {
+function ProfileDropdown({ name, role, image}) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
 
@@ -23,7 +23,7 @@ function ProfileDropdown() {
   return (
     <div className="profile-container" ref={menuRef}> 
       <img
-        src={profile}
+        src={image || profile}
         alt="Profile"
         className="profile-image"
         onClick={() => setOpen(!open)}
@@ -35,8 +35,8 @@ function ProfileDropdown() {
           <div className="dropdown-header">
             <img src={profile} alt="Profile" /> 
             <div>
-              <h4>Muhammad Iqbal</h4>
-              <span>Web Developer</span>
+              <h4>{name}</h4>
+              <span>{email || role}</span>
             </div>
           </div>
 

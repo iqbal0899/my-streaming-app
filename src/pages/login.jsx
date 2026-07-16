@@ -1,24 +1,53 @@
 import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../css/login.css";
 import Logo from "../assets/logo.png";
 import google from "../assets/google.png";
-import bg from "../assets/img/bg.jpg";
+import bg from "../assets/bg.jpg";
 import "../components/button";
 
-function Login() {
-  const [email, setEmail] = useState('');
+function Login({onLoginSuccess}) {
+  const [email, setUser] = useState('');
   const [password, setPassword] = useState('');
    const [submitting, setSubmitting] = useState(false);
+   const [error, setError] = useState("");
+   const navigate = useNavigate();
+
+   const validate = () => {
+    if (!email.includes("@")){
+        return "Email Harus Pakai @";
+    }
+
+    if (password.length < 6){
+        return "Password Min 6";
+    }
+    return "";
+
+   };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setSubmitting(true);
+    setError("");
 
-    if (email === '' && password === '') {
-        alert('Login successful!');
-    }else{
-        alert('Email atau Password Salah');
+    const validasiError = validate();
+    if(validasiError) {
+        setError(validasiError);
+        return;
     }
+
+    setSubmitting(true);
+    
+    navigate("/home");
+
+    //simulasi proses login
+    setTimeout(() => {
+        setSubmitting(false);
+
+        if(onLoginSuccess) {
+            onLoginSuccess({email, password});
+        }
+    }, 500)
+
 };
 
 return(
@@ -32,7 +61,7 @@ return(
                 type="email"
                 placeholder="Username"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setUser(e.target.value)}
             />
             <h3>Kata Sandi</h3>
             <input
