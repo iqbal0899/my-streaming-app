@@ -1,20 +1,38 @@
 import { useState } from "react";
-import Home from "./pages/home"
 import Login from "./pages/login";
-
-
-function App(){
-  const [auth, setAuth] = useState(null);
-
-  const handleLoginSuccess = ({email, password}) => {
-    setAuth({email, password})
+import Register from "./pages/register";
+import Home from "./pages/home";
+ 
+function App() {
+  const [view, setView] = useState("login"); // "login" | "register"
+  const [auth, setAuth] = useState(null); // null = belum login
+ 
+  const handleLoginSuccess = ({ email, password }) => {
+    setAuth({ email, password });
   };
-
+ 
+  const handleRegisterSuccess = () => {
+    // Setelah daftar berhasil, arahkan balik ke halaman Login
+    setView("login");
+  };
+ 
   if (!auth) {
-    return <Login onLoginSuccess={handleLoginSuccess} />;
+    if (view === "register") {
+      return (
+        <Register
+          onRegisterSuccess={handleRegisterSuccess}
+          onGoToLogin={() => setView("login")}
+        />
+      );
+    }
+    return (
+      <Login
+        onLoginSuccess={handleLoginSuccess}
+        onGoToRegister={() => setView("register")}
+      />
+    );
   }
-
-  return(
+  return (
     <div>
       
       <Home />

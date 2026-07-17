@@ -1,0 +1,111 @@
+.container{
+    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('../assets/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.register-form {
+  background: #222;
+  padding: 40px;
+  border-radius: 8px;
+  width: 350px;
+  opacity: 80%;
+}
+
+.register-form .logo {
+  display: block;
+  margin: 0 auto 20px auto;
+  width: 94px;
+  height: 24px;
+}
+
+.register-form h2 {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 700; 
+  text-align: center;
+  background-color: #222;
+}
+
+.register-form h3 {
+  color: #fff;
+  font-size: 14px;
+  background-color: #222;
+  margin-bottom: 10px;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 14px 20px;
+  margin-bottom: 15px;
+  border: 1px solid white;
+  border-radius: 24px;
+}
+
+.register-form input:focus {
+  border-color: #f00808;
+}
+
+.register-error {
+  color: #e34848;
+  font-size: 13px;
+  margin: 10px 0 0;
+}
+
+.register-form .akun {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-size: 13px;
+}
+
+.register-form .akun a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.register-form .akun a:hover {
+  text-decoration: underline;
+}
+
+.register-form .mb-3 {
+  margin-top: 8px;
+}
+
+.register-form button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: #222;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border: #fff solid 2px;
+}
+
+.register-form button[type="submit"]:hover:not(:disabled) {
+  background: #ff3333;
+}
+
+.register-form button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (max-width: 480px) {
+  .register-form {
+    margin: 20px 16px;
+    padding: 24px 20px;
+  }
+}
