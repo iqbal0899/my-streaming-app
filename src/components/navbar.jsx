@@ -1,9 +1,9 @@
 import "../css/navbar.css";
 import Logo from "../assets/Logo.png";
-import ProfileDropdown from './profileDrowpdown';
+import ProfileDropdown from './profileDropdown';
 
 
-function Navbar() {
+function Navbar({auth}) {
   return (
     <nav className="navbar">
       <div className="nav-logo">
@@ -19,7 +19,9 @@ function Navbar() {
 
 
       <div>
-        <ProfileDropdown />
+        <ProfileDropdown
+          email={auth?.email}
+          role="Muhammad Iqbal" />
       </div>
     </nav>
   );

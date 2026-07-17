@@ -4,7 +4,7 @@ import "../css/login.css";
 import Logo from "../assets/logo.png";
 import google from "../assets/google.png";
 import bg from "../assets/bg.jpg";
-import "../components/button";
+import Button from "../components/button";
 
 function Login({onLoginSuccess}) {
   const [email, setUser] = useState('');
@@ -37,7 +37,7 @@ function Login({onLoginSuccess}) {
 
     setSubmitting(true);
     
-    navigate("/home");
+    navigate("./home.jsx");
 
     //simulasi proses login
     setTimeout(() => {
@@ -76,14 +76,14 @@ return(
                 <a href="#">Daftar</a>
                  </span>
 
-                <a href="#" class="forgot-password">Lupa kata sandi?</a>
+                <a href="#" className="forgot-password">Lupa kata sandi?</a>
            </div>
 
             <div className='mb-3'>
-                <button type="submit" variant="primary" fullWidth disabled={submitting}>
-                    {submitting ? 'Loading...' : 'Login'}
-                </button>
-            </div>
+            <Button type='submit' fullWidth disabled={submitting}>
+              {submitting ? 'Logging in...' : 'Log in'}
+            </Button>
+          </div>
 
 
             <p className="atau">Atau</p>

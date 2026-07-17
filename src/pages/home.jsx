@@ -7,10 +7,10 @@ import Trending from "../components/trendingSection";
 import Footer from "../components/footer";
 
 
-function Home(){
+function Home({ auth }){
   return(
-    <div home>
-    <Navbar />
+    <div className="Home">
+    <Navbar auth={auth} />
     <Hero />
     <Card />
     <Trending />
