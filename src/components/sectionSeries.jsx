@@ -1,93 +1,83 @@
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "../css/trendingSection.css";
-import War from "../assets/war.png";
-import Ant from "../assets/ant-man.png";
-import Galaxy from "../assets/guardian.png";
-import Mermaid from "../assets/mermaid.png";
-import Otto from "../assets/otto-man.png";
+import Suzume from "../assets/suzume.png";
+import Jurassic from "../assets/jurassic.png";
+import Sonic from "../assets/sonic.png";
+import Dead from "../assets/dead.png";
+import BigHero from "../assets/big-hero.png";
+import Guardian from "../assets/guardian.png";
 
 
-const TRENDING = [
-    {
+     
+    const SERIES = [
+      {
         id: 1,
-        title: "The Tomorrow War",
-        badge: "Top 10",
-        image: War,
-    },
-
-    {
+        title: "Suzume",
+        badge: "Episode Baru",
+        image: Suzume,
+      },
+      {
         id: 2,
-        title: "Ant-Man : Quantumania",
-        badge: "Top 10",
-        image: Ant,
-    },
-
-    {
+        title: "Jurassic World",
+        badge: null,
+        image: Jurassic,
+      },
+      {
         id: 3,
-        title: "Guardian Of Galaxy",
-        badge: "Top 10",
-        image: Galaxy,
-    },
-
-    {
+        title: "Sonic the Hedgehog 2",
+        badge: null,
+        image: Sonic,
+      },
+      {
         id: 4,
-        title: "The Little Mermaid",
-        badge: "Top 10",
-        image: Mermaid,
-    },
-
-    {
+        title: "All of Us Are Dead",
+        badge: "Episode Baru",
+        image: Dead,
+      },
+      {
         id: 5,
-        title: "A Man Called Otto",
+        title: "Big Hero 6",
         badge: "Top 10",
-        image: Otto,
-    },
-
-    {
+        image: BigHero,
+      },
+      {
         id: 6,
-        title: "Ant-Man : Quantumania",
-        badge: "Top 10",
-        image: Ant,
-    },
-
-    {
-        id: 7,
         title: "Guardian Of Galaxy",
         badge: "Top 10",
-        image: Galaxy,
-    },
-
+        image: Guardian,
+      },
     ];
- 
-export default function CardTrendingFilm({
-  title = "Film Trending",
-  films = TRENDING,
+    
+
+
+export default function CardSeriesFilm({
+    title = "Top Rating Film dan Series Hari Ini",
+    films = SERIES,
 }) {
-  const trackRef = useRef(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
- 
-  const updateArrows = () => {
-    const el = trackRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 4);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
-  };
- 
-  useEffect(() => {
-    updateArrows();
-    const el = trackRef.current;
-    if (!el) return;
-    el.addEventListener("scroll", updateArrows, { passive: true });
-    window.addEventListener("resize", updateArrows);
+    const trackRef = useRef(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+
+    const updateArrows = () => {
+        const i = trackRef.current;
+        if (!i) return;
+        setCanScrollLeft(i.scrollLeft > 4);
+        setCanScrollRight(i.scrollLeft + i.clientWidht < i.scolWidht - 4);
+    };
+
+    useEffect(() => {
+        updateArrows();
+        const i = trackRef.current;
+        if (!i) return;
+        i.addEventListener("scroll", updateArrows, {passive: true});
+        window.addEventListener("resize", updateArrows);
     return () => {
-      el.removeEventListener("scroll", updateArrows);
+      i.removeEventListener("scroll", updateArrows);
       window.removeEventListener("resize", updateArrows);
     };
   }, []);
- 
-  const scrollByCards = (direction) => {
+const scrollByCards = (direction) => {
     const el = trackRef.current;
     if (!el) return;
     const card = el.querySelector(".tf-card");
@@ -136,3 +126,4 @@ export default function CardTrendingFilm({
     </section>
   );
 }
+

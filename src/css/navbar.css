@@ -5,25 +5,33 @@
 }
 
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5%;
-    background: #292828;
-    color: white;
+display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 14px 28px;
+}
+
+.nav-logo{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .nav-logo img {
-    color: #ff2d55;
-    cursor: pointer;
     width: 70px;
 }
 
 .nav-links {
-    display: flex;
-    list-style: none;
-    gap: 30px;
-    align-items:flex-start;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex: 1 1 auto;
 }
 
 .nav-links a {
@@ -45,6 +53,10 @@
     border-radius: 6px;
     cursor: pointer;
     transition: .3s;
+    flex: 0 0 auto;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
 
 .login-btn:hover {
