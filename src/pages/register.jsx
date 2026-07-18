@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "../css/register.css";
 import Logo from "../assets/logo.png";
+import Button from "../components/button";
+import GoogleButton from "../components/buttonGoogle"; 
 
 const USERS_KEY = "registered_users";
 
@@ -65,7 +67,7 @@ function Register({ onRegisterSuccess, onGoToLogin }) {
   };
 
   return (
-    <div className="container">
+    <div className="container-regis">
       <form onSubmit={handleRegister} className="register-form">
         <img src={Logo} alt="Logo" className="logo" />
         <h2>Daftar Akun</h2>
@@ -112,10 +114,12 @@ function Register({ onRegisterSuccess, onGoToLogin }) {
         </div>
 
         <div className="mb-3">
-          <button type="submit" disabled={submitting}>
+          <Button type="submit" disabled={submitting}>
             {submitting ? "Loading..." : "Daftar"}
-          </button>
+          </Button>
         </div>
+
+        <GoogleButton> Daftar Dengan Google </GoogleButton>
       </form>
     </div>
   );

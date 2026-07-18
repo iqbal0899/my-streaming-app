@@ -1,10 +1,10 @@
-.container{
+.container-regis{
     width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('../assets/bg.jpg');
+  background-image: url('../assets/bg2.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -70,6 +70,11 @@
   font-weight: 600;
   text-decoration: none;
   margin-left: 4px;
+  font-size: 14px;
+}
+
+.register-form .akun span{
+  font-size: 14px;
 }
 
 .register-form .akun a:hover {
@@ -82,16 +87,14 @@
 
 .register-form button[type="submit"] {
   width: 100%;
-  padding: 12px;
-  background: #222;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 700;
+  padding: 8px 11px;
+  background-color: #3d4142;
+  color: white;
+  border: 0.5px solid white;
+  border-radius: 14px;
   cursor: pointer;
-  transition: background 0.15s ease;
-  border: #fff solid 2px;
+  opacity: 100%;
+  margin: 10px 0;
 }
 
 .register-form button[type="submit"]:hover:not(:disabled) {
@@ -101,6 +104,21 @@
 .register-form button[type="submit"]:disabled {
   opacity: 0.6;
   cursor: default;
+}
+
+.register-form button {
+  width: 100%;
+  padding: 8px 11px;
+  background-color: #222;
+  color: white;
+  border: 0.5px solid white;
+  border-radius: 14px;
+  opacity: 100%;
+  margin: 10px 0;
+}
+
+.register-form button:hover {
+  background: #ff3333;
 }
 
 @media (max-width: 480px) {
