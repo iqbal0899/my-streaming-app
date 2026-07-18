@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../css/register.css";
-import Logo from "../assets/logo.png";
+import Logo from "../assets/Logo.png";
 import Button from "../components/button";
 import GoogleButton from "../components/buttonGoogle"; 
 

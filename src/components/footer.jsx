@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "../css/footer.css"
-import Logo from "../assets/logo.png";
+import Logo from "../assets/Logo.png";
 
 const GENRES = [
   "Aksi", "Drama", "Komedi", "Horor", "Thriller",
