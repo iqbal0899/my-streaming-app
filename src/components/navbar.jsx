@@ -1,5 +1,5 @@
 import "../css/navbar.css";
-import Logo from "../assets/Logo.png";
+import Logo from "../assets/logo.png";
 import ProfileDropdown from './profileDropdown';
 
 
