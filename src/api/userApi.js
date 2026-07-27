@@ -1,4 +1,4 @@
-const BASE_URL = "https://6a603507b1933e9d25fcf2ee.mockapi.io/:endpoint";
+const BASE_URL = "https://6a603507b1933e9d25fcf2ee.mockapi.io/users";
 
 export async function getUsers() {
   const res = await fetch(BASE_URL);

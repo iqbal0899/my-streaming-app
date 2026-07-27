@@ -20,8 +20,7 @@ function Navbar({auth}) {
 
       <div>
         <ProfileDropdown
-          email={auth?.email}
-          role="Muhammad Iqbal" />
+          email={auth?.email}/>
       </div>
     </nav>
   );
