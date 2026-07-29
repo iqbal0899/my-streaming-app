@@ -128,7 +128,7 @@ export default function Users() {
           onChange={handleChange}
         />
 
-        <button>
+        <button className="btn-btn">
           {editId ? "Update" : "Tambah"}
         </button>
 

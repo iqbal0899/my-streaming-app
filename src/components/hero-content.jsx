@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Play, Info, Volume2, VolumeX } from "lucide-react";
+import { Info, Volume2, VolumeX } from "lucide-react";
 import "../css/hero-content.css";
 import Hero from "../assets/duty-after-school.png";
 
@@ -30,7 +30,6 @@ export default function TitleHeroCard({
  
           <div className="thc-actions">
             <button className="thc-play">
-              <Play size={15} className="fill-current" />
               Mulai
             </button>
             <button className="thc-info">
@@ -38,15 +37,16 @@ export default function TitleHeroCard({
               Selengkapnya
             </button>
             <button className="thc-rating">{rating}</button>
-            <button
+          </div>
+          
+        </div>
+        <button
               className="thc-volume"
               aria-label={muted ? "Aktifkan suara" : "Matikan suara"}
               onClick={() => setMuted((m) => !m)}
             >
               {muted ? <VolumeX size={15} /> : <Volume2 size={15} />}
             </button>
-          </div>
-        </div>
       </div>
     </div>
   );

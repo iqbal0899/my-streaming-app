@@ -117,16 +117,23 @@
         }
  
         .thc-volume {
-          margin-left: auto;
-          background: rgba(0,0,0,0.35);
-          border: 1px solid rgba(255,255,255,0.4);
-          color: #fff;
-          width: 34px;
-          height: 34px;
-          border-radius: 999px;
-          justify-content: center;
-        }
-        .thc-volume:hover { background: rgba(255, 255, 255, 0.5); }
+  position: absolute;
+  top: clamp(14px, 3vw, 32px);
+  right: clamp(16px, 3.5vw, 40px);
+  z-index: 3;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 475px;
+}
+.thc-volume:hover { background: rgba(255, 255, 255, 0.5); }
  
         @media (max-width: 480px) {
           .thc-card { aspect-ratio: 4 / 5; }
