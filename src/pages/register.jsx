@@ -1,33 +1,20 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/register.css";
 import Logo from "../assets/Logo.png";
 import Button from "../components/button";
-import GoogleButton from "../components/buttonGoogle"; 
+import GoogleButton from "../components/buttonGoogle";
+import { getUsers, createUser } from "../api/userApi";
 
-const USERS_KEY = "registered_users";
-
-function getUsers() {
-  try {
-    return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-  } catch {
-    return [];
-  }
-}
-
-function saveUser(user) {
-  const users = getUsers();
-  users.push(user);
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-function Register({ onRegisterSuccess, onGoToLogin }) {
+function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
-  const validate = () => {
+  const validate = async () => {
     if (!username.includes("@")) {
       return "Username harus berupa email (mengandung karakter @)";
     }
@@ -37,33 +24,40 @@ function Register({ onRegisterSuccess, onGoToLogin }) {
     if (password !== confirmPassword) {
       return "Konfirmasi password tidak sama dengan password";
     }
-    if (getUsers().some((u) => u.email === username)) {
+
+    const users = await getUsers();
+    if (users.some((u) => u.email === username)) {
       return "Email ini sudah terdaftar, silakan login";
     }
+
     return "";
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
-
-    const validationError = validate();
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
     setSubmitting(true);
 
-    setTimeout(() => {
-      // Simpan akun baru supaya halaman Login bisa memvalidasinya
-      saveUser({ email: username, password });
+    try {
+      const validationError = await validate();
+      if (validationError) {
+        setError(validationError);
+        setSubmitting(false);
+        return;
+      }
+
+      // Simpan akun baru ke MockAPI supaya halaman Login bisa memvalidasinya
+      await createUser({ email: username, password });
+
       setSubmitting(false);
 
-      if (onRegisterSuccess) {
-        onRegisterSuccess({ email: username, password });
-      }
-    }, 400);
+      // Setelah daftar berhasil, arahkan ke halaman Login
+      navigate("/");
+    } catch (err) {
+      setSubmitting(false);
+      setError("Gagal terhubung ke server. Coba lagi.");
+      console.error(err);
+    }
   };
 
   return (
@@ -100,16 +94,7 @@ function Register({ onRegisterSuccess, onGoToLogin }) {
 
         <div className="akun">
           <span>
-            Sudah punya akun?{" "}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                onGoToLogin && onGoToLogin();
-              }}
-            >
-              Masuk
-            </a>
+            Sudah punya akun? <Link to="/">Masuk</Link>
           </span>
         </div>
 

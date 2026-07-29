@@ -7,6 +7,7 @@ import Big from "../assets/big-hero.png";
 import Dead from "../assets/dead.png";
 import Missing from "../assets/missing.png";
 import Guardian from "../assets/guardian.png";
+import Jurassic from "../assets/jurassic.png";
 
 
      
@@ -51,6 +52,13 @@ import Guardian from "../assets/guardian.png";
         title: "Guardian Of Galaxy",
         badge: "Top 10",
         image: Guardian,
+      },
+
+      {
+        id: 7,
+        title: "Jurassic World",
+        badge: null,
+        image: Jurassic,
       },
 
     ];

@@ -107,20 +107,20 @@ export default function Users() {
   }
 
   return (
-    <div className="container">
+    <div className="container-users">
 
       <h2>Daftar Users</h2>
 
       <form onSubmit={handleSubmit}>
 
-        <input
+        Email: <input
           name="email"
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
         />
 
-        <input
+        Password: <input
           name="password"
           type="password"
           placeholder="Password"

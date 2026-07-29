@@ -7,6 +7,7 @@ import Sonic from "../assets/sonic.png";
 import Dead from "../assets/dead.png";
 import BigHero from "../assets/big-hero.png";
 import Guardian from "../assets/guardian.png";
+import Ant from "../assets/ant-man.png";
 
 
      
@@ -47,37 +48,45 @@ import Guardian from "../assets/guardian.png";
         badge: "Top 10",
         image: Guardian,
       },
+
+      {
+        id: 7,
+        title: "Ant-Man",
+        badge: null,
+        image: Ant,
+      },
     ];
     
 
 
-export default function CardSeriesFilm({
-    title = "Top Rating Film dan Series Hari Ini",
-    films = SERIES,
+export default function CardFilmBaru({
+  title = " Top Rating Film dan Series Hari Ini",
+  films = SERIES,
 }) {
-    const trackRef = useRef(null);
-    const [canScrollLeft, setCanScrollLeft] = useState(false);
-    const [canScrollRight, setCanScrollRight] = useState(true);
-
-    const updateArrows = () => {
-        const i = trackRef.current;
-        if (!i) return;
-        setCanScrollLeft(i.scrollLeft > 4);
-        setCanScrollRight(i.scrollLeft + i.clientWidht < i.scolWidht - 4);
-    };
-
-    useEffect(() => {
-        updateArrows();
-        const i = trackRef.current;
-        if (!i) return;
-        i.addEventListener("scroll", updateArrows, {passive: true});
-        window.addEventListener("resize", updateArrows);
+  const trackRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+ 
+  const updateArrows = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  };
+ 
+  useEffect(() => {
+    updateArrows();
+    const el = trackRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    window.addEventListener("resize", updateArrows);
     return () => {
-      i.removeEventListener("scroll", updateArrows);
+      el.removeEventListener("scroll", updateArrows);
       window.removeEventListener("resize", updateArrows);
     };
   }, []);
-const scrollByCards = (direction) => {
+ 
+  const scrollByCards = (direction) => {
     const el = trackRef.current;
     if (!el) return;
     const card = el.querySelector(".tf-card");

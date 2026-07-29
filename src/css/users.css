@@ -1,14 +1,4 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial;
-    background: #111;
-}
-
-.container {
+.container-users {
     width: 90%;
     max-width: 900px;
     margin: 40px auto;
@@ -17,12 +7,12 @@ body {
     padding: 30px;
 }
 
-h2 {
+.container-users h2 {
     text-align: center;
     margin: 10px 0px;
 }
 
-form {
+.form-users {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
@@ -33,9 +23,11 @@ input {
     flex: 1;
     min-width: 220px;
     padding: 12px;
+    margin-right: 5px;
+    margin-bottom: 10px;
 }
 
-form button {
+button {
     padding: 12px 20px;
     background: royalblue;
     color: white;
@@ -90,12 +82,12 @@ table {
     overflow-x: auto;
 }
 
-form {
+.form-users {
     flex-direction: column;
 }
 
 input,
-form button {
+.form-users button {
     width: 100%;
 }
 
@@ -103,7 +95,7 @@ form button {
 
 @media (max-width:480px) {
 
-.container {
+.container-users {
     padding: 20px;
 }
 

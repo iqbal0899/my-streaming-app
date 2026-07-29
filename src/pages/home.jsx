@@ -10,10 +10,12 @@ import Baru from "../components/sectionBaru";
 import Footer from "../components/footer";
 
 
-function Home({auth}){
+function Home({auth, onLogout}){
   return(
     <div className="Home">
-    <Navbar auth={auth} />
+    <Navbar 
+    auth={auth}
+    onLogout={onLogout} />
     <Hero />
     <Card />
     <Series />

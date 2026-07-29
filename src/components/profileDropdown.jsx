@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "../css/profileDropdown.css"
 import profile from "../assets/big-hero.png";
 
-function ProfileDropdown({ email, role, image}) {
+function ProfileDropdown({ email, role, image, onLogout}) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
 
@@ -50,7 +50,7 @@ function ProfileDropdown({ email, role, image}) {
             ⭐ Premium
           </button>
 
-          <button className="dropdown-item logout">
+          <button className="dropdown-item logout" onClick={onLogout}>
             🚪 Keluar
           </button>
 
