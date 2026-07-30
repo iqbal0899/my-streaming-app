@@ -140,8 +140,16 @@
         .fs-rating svg { color: var(--star); fill: var(--star); }
  
         @media (max-width: 640px) {
-          .fs-card { width: 132px; }
-          .fs-title { font-size: 12px; }
+          .fs-track {
+            scroll-snap-type: x mandatory;
+            padding: 6px 0 14px;
+          }
+          .fs-card {
+            width: calc(100vw - 32px);
+            height: auto;
+            aspect-ratio: 309 / 151;
+          }
+          .fs-title { font-size: 13px; }
           .fs-nav { width: 30px; height: 30px; }
           .fs-heading { font-size: 16px; }
         }
