@@ -1,36 +1,27 @@
-const BASE_URL = "https://6a603507b1933e9d25fcf2ee.mockapi.io/users";
+import axiosApi from './axiosApi';
+
 
 export async function getUsers() {
-  const res = await fetch(BASE_URL);
-  return await res.json();
+  const res = await axiosApi.get('/users');
+
+  if (!Array.isArray(res.data)) {
+    console.error('Expected an array from /users but got:', res.data);
+    throw new Error('Data user tidak valid. Cek endpoint API (/users) di MockAPI.');
+  }
+
+  return res.data;
 }
 
 export async function createUser(data) {
-  const res = await fetch(BASE_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  return await res.json();
+  const res = await axiosApi.post('/users', data);
+  return res.data;
 }
 
 export async function updateUser(id, data) {
-  const res = await fetch(`${BASE_URL}/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  return await res.json();
+  const res = await axiosApi.put(`/users/${id}`, data);
+  return res.data;
 }
 
 export async function deleteUser(id) {
-  await fetch(`${BASE_URL}/${id}`, {
-    method: "DELETE",
-  });
+  await axiosApi.delete(`/users/${id}`);
 }
