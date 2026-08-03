@@ -50,8 +50,13 @@ function Login({ onLoginSuccess }) {
         return;
       }
 
-      if (onLoginSuccess) {
-        onLoginSuccess(found);
+      if (found) {
+
+        localStorage.setItem("currentUser", JSON.stringify(found));
+
+        if (onLoginSuccess) {
+          onLoginSuccess(found);
+        }
       }
 
       navigate("/home");

@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/profileDropdown.css"
 import profile from "../assets/big-hero.png";
 
-function ProfileDropdown({ email, role, image, onLogout}) {
+function ProfileDropdown({ name, email, image, onLogout}) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handler = (e) => {
@@ -19,6 +21,11 @@ function ProfileDropdown({ email, role, image, onLogout}) {
       document.removeEventListener("mousedown", handler);
     };
   }, []);
+
+  function handleProfileClick() {
+    setOpen(false);
+    navigate("/profile");
+  }
 
   return (
     <div className="profile-container" ref={menuRef}> 
@@ -35,14 +42,14 @@ function ProfileDropdown({ email, role, image, onLogout}) {
           <div className="dropdown-header">
             <img src={profile} alt="Profile" /> 
             <div>
-              <h4>{email}</h4>
-              <span>{role}</span>
+              <h4>{name}</h4>
+              <span>{email}</span>
             </div>
           </div>
 
           <hr />
 
-          <button className="dropdown-item">
+          <button className="dropdown-item" onClick={handleProfileClick}>
             👤 Profile Saya
           </button>
 

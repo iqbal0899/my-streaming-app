@@ -4,6 +4,7 @@ import Logo from "../assets/Logo.png";
 import ProfileDropdown from "./profileDropdown";
 
 function Navbar({ auth, onLogout }) {
+  console.log(auth);
   return (
     <nav className="navbar">
       <div className="nav-logo">
@@ -27,9 +28,11 @@ function Navbar({ auth, onLogout }) {
       </ul>
 
       <div>
-        <ProfileDropdown email={auth?.email} onLogout={onLogout} />
+        <ProfileDropdown name={auth?.name} email={auth?.email} onLogout={onLogout} />
       </div>
+      
     </nav>
+
   );
 }
 

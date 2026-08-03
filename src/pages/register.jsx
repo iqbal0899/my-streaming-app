@@ -7,6 +7,7 @@ import GoogleButton from "../components/buttonGoogle";
 import { getUsers, createUser } from "../api/userApi";
 
 function Register() {
+  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,6 +24,9 @@ function Register() {
     }
     if (password !== confirmPassword) {
       return "Konfirmasi password tidak sama dengan password";
+    }
+    if (!name.trim()) {
+      return "Nama tidak boleh kosong";
     }
 
     const users = await getUsers();
@@ -47,7 +51,7 @@ function Register() {
       }
 
       // Simpan akun baru ke MockAPI supaya halaman Login bisa memvalidasinya
-      await createUser({ email: username, password });
+      await createUser({ name, email: username, password });
 
       setSubmitting(false);
 
@@ -65,6 +69,14 @@ function Register() {
       <form onSubmit={handleRegister} className="register-form">
         <img src={Logo} alt="Logo" className="logo" />
         <h2>Daftar Akun</h2>
+
+        <h3>Nama Lengkap</h3>
+        <input
+          type="text"
+          placeholder="Masukkan nama lengkap"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
         <h3>Username</h3>
         <input
