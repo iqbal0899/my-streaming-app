@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
   Route,
   Navigate,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import Login from "./pages/login";
 import Register from "./pages/register";
@@ -26,29 +27,56 @@ function App() {
 
 function AppContent() {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  const [auth, setAuth] = useState(() => {
+    const user = localStorage.getItem("currentUser");
+    return user ? JSON.parse(user) : null;}); // null = belum login, isi objek user kalau sudah login
 
-  const [auth, setAuth] = useState(null); // null = belum login, isi objek user kalau sudah login
-  const [selectedPlan, setSelectedPlan] = useState(null);
-  const [selectedMetode, setSelectedMetode] = useState("card");
+  const [selectedPlan, setSelectedPlan] = useState(() => {
+    const plan = localStorage.getItem("selectedPlan");
+    return plan ? JSON.parse(plan) : null;});
+
+
+  const [selectedMetode, setSelectedMetode] = useState(() => {
+    return localStorage.getItem("selectedMetode") || "card";});
+  
+  
   const [expiredNotice, setExpiredNotice] = useState(false);
 
+  useEffect(() => {
+    localStorage.setItem("lastRoute", location.pathname);
+      }, [location]);
+
+  
+  useEffect(() => {
+    const lastRoute = localStorage.getItem("lastRoute");
+    if (auth && lastRoute && location.pathname === "/") {
+    navigate(lastRoute, { replace: true }); 
+    }}, 
+    [auth, navigate, location.pathname]);
+
   const handleLoginSuccess = (user) => {
-    setAuth(user);
+  setAuth(user);
+  localStorage.setItem("currentUser", JSON.stringify(user));
   };
 
   const handleLogout = () => {
-    setAuth(null);
+  setAuth(null);
+  localStorage.removeItem("currentUser");
   };
 
   function handlePilihPaket(plan) {
-    setSelectedPlan(plan);
-    setExpiredNotice(false);
-    navigate("/checkout");
+  setSelectedPlan(plan);
+  localStorage.setItem("selectedPlan", JSON.stringify(plan));
+  setExpiredNotice(false);
+  navigate("/checkout");
   }
 
   function handleBayarCheckout(metode) {
-    setSelectedMetode(metode);
-    navigate("/payment");
+  setSelectedMetode(metode);
+  localStorage.setItem("selectedMetode", metode);
+  navigate("/payment");
   }
 
   function handleKembaliKePricing() {
@@ -66,8 +94,14 @@ function AppContent() {
 
   return (
     <Routes>
+      {/* Halaman root -> arahkan sesuai status login */}
+      <Route
+        path="/"
+        element={<Navigate to={auth ? "/home" : "/login"} replace />}
+      />
+
       {/* Halaman login */}
-      <Route path="/" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+      <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
 
       {/* Halaman registrasi */}
       <Route path="/register" element={<Register />} />
@@ -78,7 +112,7 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Home auth={auth} auth={auth} onLogout={handleLogout} />
+              <Home auth={auth} onLogout={handleLogout} />
             </>
           ) : (
             <Navigate to="/" replace />
@@ -164,23 +198,23 @@ function AppContent() {
         }
       />
 
-      {/* Path tidak dikenali -> kembali ke login */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-
+      {/* Halaman profil user */}
       <Route
-  path="/profile"
-  element={
-    auth ? (
-      <>
-        <Navbar name={name}auth={auth} onLogout={handleLogout} />
-        <Profile />
-      </>
-    ) : (
-      <Navigate to="/" replace />
-    )
-  }
-/>
+        path="/profile"
+        element={
+          auth ? (
+            <>
+              <Navbar auth={auth} onLogout={handleLogout} />
+              <Profile />
+            </>
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      />
 
+      {/* Path tidak dikenali -> kembali ke login */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }

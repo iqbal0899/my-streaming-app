@@ -56,7 +56,7 @@ function Register() {
       setSubmitting(false);
 
       // Setelah daftar berhasil, arahkan ke halaman Login
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       setSubmitting(false);
       setError("Gagal terhubung ke server. Coba lagi.");
@@ -106,7 +106,7 @@ function Register() {
 
         <div className="akun">
           <span>
-            Sudah punya akun? <Link to="/">Masuk</Link>
+            Sudah punya akun? <Link to="/login">Masuk</Link>
           </span>
         </div>
 

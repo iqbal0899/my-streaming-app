@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "../css/trendingSection.css";
+import FilmDetail from "./filmDetail";
 import War from "../assets/war.png";
 import Ant from "../assets/ant-man.png";
 import Galaxy from "../assets/guardian.png";
@@ -67,6 +68,7 @@ export default function CardTrendingFilm({
   const trackRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [selectedFilm, setSelectedFilm] = useState(null);
  
   const updateArrows = () => {
     const el = trackRef.current;
@@ -111,7 +113,13 @@ export default function CardTrendingFilm({
  
         <div className="tf-track" ref={trackRef}>
           {films.map((f) => (
-            <div className="tf-card" key={f.id}>
+            <div
+              className="tf-card"
+              key={f.id}
+              onClick={() => setSelectedFilm(f)}
+              role="button"
+              tabIndex={0}
+            >
               <img src={f.image} alt={f.title} loading="lazy" />
               {f.badge && (
                 <span
@@ -133,6 +141,11 @@ export default function CardTrendingFilm({
           <ChevronRight size={16} />
         </button>
       </div>
+
+      <FilmDetail
+        film={selectedFilm}
+        onClose={() => setSelectedFilm(null)}
+      />
     </section>
   );
 }

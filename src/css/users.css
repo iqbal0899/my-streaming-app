@@ -19,7 +19,8 @@
     margin-bottom: 25px;
 }
 
-input {
+.users-input-email,
+.users-input-password {
     flex: 1;
     min-width: 220px;
     padding: 12px;
@@ -56,6 +57,11 @@ td {
 th {
     background: #222;
     color: white;
+}
+
+.users-table-body td {
+    text-align: center;
+    color: #333;
 }
 
 .edit {

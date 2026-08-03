@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import "../css/card-section.css";
+import CardDetail from "./cardDetail";
 import lookup from "../assets/dont-look-up.png";
 import dead from "../assets/all-of-us.png";
 import blue from "../assets/bluelock.png";
@@ -60,6 +61,7 @@ function CardSectionPilihanFilm({
   const trackRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [selectedFilm, setSelectedFilm] = useState(null);
  
   const updateArrows = () => {
     const el = trackRef.current;
@@ -104,7 +106,13 @@ function CardSectionPilihanFilm({
  
         <div className="fs-track" ref={trackRef}>
           {films.map((f) => (
-            <div className="fs-card" key={f.id}>
+            <div
+              className="fs-card"
+              key={f.id}
+              onClick={() => setSelectedFilm(f)}
+              role="button"
+              tabIndex={0}
+            >
               <img src={f.image} alt={f.title} loading="lazy" />
               {f.badge && <span className="fs-badge">{f.badge}</span>}
               <div className="fs-overlay">
@@ -127,6 +135,11 @@ function CardSectionPilihanFilm({
           <ChevronRight size={18} />
         </button>
       </div>
+
+      <CardDetail
+        film={selectedFilm}
+        onClose={() => setSelectedFilm(null)}
+      />
     </section>
   );
 }

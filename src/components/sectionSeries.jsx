@@ -1,47 +1,53 @@
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "../css/trendingSection.css";
-import Suzume from "../assets/suzume.png";
-import Jurassic from "../assets/jurassic.png";
-import Sonic from "../assets/sonic.png";
+import FilmDetail from "./filmDetail";
+import Mermaid from "../assets/mermaid.png";
+import Duty from "../assets/duty.png";
+import Big from "../assets/big-hero.png";
 import Dead from "../assets/dead.png";
-import BigHero from "../assets/big-hero.png";
+import Missing from "../assets/missing.png";
 import Guardian from "../assets/guardian.png";
-import Ant from "../assets/ant-man.png";
+import Jurassic from "../assets/jurassic.png";
 
 
      
-    const SERIES = [
+    const RILIS = [
       {
         id: 1,
-        title: "Suzume",
-        badge: "Episode Baru",
-        image: Suzume,
+        title: "The Little Mermaid",
+        badge: "Top 10",
+        image: Mermaid,
       },
+
       {
         id: 2,
-        title: "Jurassic World",
-        badge: null,
-        image: Jurassic,
+        title: "Duty After School",
+        badge: "Episode Baru",
+        image: Duty,
       },
+
       {
         id: 3,
-        title: "Sonic the Hedgehog 2",
+        title: "Big Hero 6",
         badge: null,
-        image: Sonic,
+        image: Big,
       },
+
       {
         id: 4,
         title: "All of Us Are Dead",
         badge: "Episode Baru",
         image: Dead,
       },
+
       {
         id: 5,
-        title: "Big Hero 6",
-        badge: "Top 10",
-        image: BigHero,
+        title: "Missing",
+        badge: null,
+        image: Missing,
       },
+
       {
         id: 6,
         title: "Guardian Of Galaxy",
@@ -51,21 +57,23 @@ import Ant from "../assets/ant-man.png";
 
       {
         id: 7,
-        title: "Ant-Man",
+        title: "Jurassic World",
         badge: null,
-        image: Ant,
+        image: Jurassic,
       },
+
     ];
     
 
 
 export default function CardFilmBaru({
-  title = " Top Rating Film dan Series Hari Ini",
-  films = SERIES,
+  title = "Baru Rilis",
+  films = RILIS,
 }) {
   const trackRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [selectedFilm, setSelectedFilm] = useState(null);
  
   const updateArrows = () => {
     const el = trackRef.current;
@@ -110,7 +118,13 @@ export default function CardFilmBaru({
  
         <div className="tf-track" ref={trackRef}>
           {films.map((f) => (
-            <div className="tf-card" key={f.id}>
+            <div
+              className="tf-card"
+              key={f.id}
+              onClick={() => setSelectedFilm(f)}
+              role="button"
+              tabIndex={0}
+            >
               <img src={f.image} alt={f.title} loading="lazy" />
               {f.badge && (
                 <span
@@ -132,7 +146,12 @@ export default function CardFilmBaru({
           <ChevronRight size={16} />
         </button>
       </div>
+
+      <FilmDetail
+        film={selectedFilm}
+        onClose={() => setSelectedFilm(null)}
+
+      />
     </section>
   );
 }
-

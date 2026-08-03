@@ -1,0 +1,178 @@
+.fdm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.fdm-card {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  background: #10151f;
+  border: 1px solid #2196f3;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  animation: fdm-pop 0.18s ease-out;
+}
+
+@keyframes fdm-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fdm-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.fdm-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+.fdm-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fdm-hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(10, 14, 20, 0.85) 85%,
+    #10151f 100%
+  );
+}
+
+.fdm-hero-title {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  right: 16px;
+  margin: 0;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1.15;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.fdm-body {
+  padding: 16px;
+}
+
+.fdm-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.fdm-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.fdm-btn:hover {
+  transform: scale(1.06);
+}
+
+.fdm-btn-play {
+  background: #fff;
+  color: #10151f;
+  border: none;
+}
+
+.fdm-btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+}
+
+.fdm-spacer {
+  flex: 1;
+}
+
+.fdm-meta-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.fdm-episode {
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.fdm-duration {
+  color: #b8bfca;
+  font-size: 13px;
+}
+
+.fdm-progress-track {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.fdm-progress-fill {
+  height: 100%;
+  background: #2196f3;
+  border-radius: 2px;
+}
+
+.fdm-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  color: #cfd4dc;
+  font-size: 13px;
+}
+
+.fdm-dot {
+  margin: 0 8px;
+  color: #6b7280;
+}

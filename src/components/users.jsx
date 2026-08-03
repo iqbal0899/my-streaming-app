@@ -114,6 +114,7 @@ export default function Users() {
       <form onSubmit={handleSubmit}>
 
         Email: <input
+          className="users-input-email"
           name="email"
           placeholder="Email"
           value={form.email}
@@ -121,6 +122,7 @@ export default function Users() {
         />
 
         Password: <input
+          className="users-input-password"
           name="password"
           type="password"
           placeholder="Password"
@@ -146,7 +148,7 @@ export default function Users() {
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="users-table-body">
 
           {users.map((user, index) => (
 
