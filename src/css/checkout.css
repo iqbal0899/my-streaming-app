@@ -1,0 +1,281 @@
+body{
+    background:#141414;
+    color:#fff;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.page{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    padding:40px 30px;
+}
+
+.page-title{
+    font-size:28px;
+    font-weight:600;
+    margin-bottom:25px;
+}
+
+.checkout-grid{
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:30px;
+    align-items:flex-start;
+}
+
+.plan-card{
+    background:linear-gradient(180deg,#3556ff,#2336b8);
+    border-radius:10px;
+    padding:18px;
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.plan-badge{
+    display:inline-block;
+    padding:8px 16px;
+    border-radius:30px;
+    background:#323232;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+.plan-price{
+    font-size:13px;
+    color:#f0f0f0;
+}
+
+.plan-akun{
+    margin:10px 0 18px;
+    font-size:14px;
+}
+
+.plan-features{
+    list-style:none;
+}
+
+.plan-features li{
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+    font-size:13px;
+}
+
+.plan-features svg{
+    color:white;
+    width:15px;
+}
+
+.plan-cta{
+    width:100%;
+    border:none;
+    margin-top:25px;
+    border-radius:25px;
+    padding:12px;
+    background:white;
+    color:#1d3fff;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.plan-note{
+    text-align:center;
+    font-size:11px;
+    margin-top:8px;
+    opacity:.8;
+}
+
+/* ======================
+    Panel kanan
+====================== */
+
+.checkout-panel{
+    width:100%;
+}
+
+.panel-label{
+    margin-bottom:10px;
+    font-size:15px;
+    font-weight:500;
+}
+
+/* ======================
+    Payment Method
+====================== */
+
+.method-list-checkout{
+    display:flex;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.method-option-checkout{
+    flex:1;
+    border:1px solid #666;
+    border-radius:5px;
+    padding:8px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.method-option input{
+    accent-color:#2f5cff;
+}
+
+.method-option:hover{
+    border-color:#2f5cff;
+}
+
+.method-option--active{
+    border-color:#2f5cff;
+    background:#1e1e1e;
+}
+
+/* ======================
+ Voucher
+====================== */
+
+.voucher-row{
+    display:flex;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.voucher-input{
+    flex:1;
+    height:45px;
+    border:1px solid #666;
+    border-radius:4px;
+    background:#181818;
+    color:white;
+    padding:0 15px;
+    outline:none;
+}
+
+.voucher-input::placeholder{
+    color:#777;
+}
+
+.voucher-btn{
+    width:110px;
+    border:none;
+    border-radius:25px;
+    background:#3d3d3d;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.voucher-btn:hover{
+    background:#2f5cff;
+}
+
+/* =====================
+ Summary
+===================== */
+
+.summary-rows{
+    width:360px;
+    margin-bottom:30px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:14px;
+}
+
+.summary-row--total{
+    font-weight:bold;
+    font-size:16px;
+}
+
+/* ======================
+ Pay Button
+====================== */
+
+.pay-btn{
+    border:none;
+    background:#2f5cff;
+    color:white;
+    padding:11px 34px;
+    border-radius:25px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.pay-btn:hover{
+    background:#1d45f5;
+}
+
+/* ======================
+ Back Button
+====================== */
+
+.back-link{
+    border:none;
+    background:none;
+    color:white;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    margin-bottom:25px;
+}
+
+/* ======================
+ Responsive
+====================== */
+
+@media(max-width:900px){
+
+.checkout-grid{
+    grid-template-columns:1fr;
+}
+
+.plan-card{
+    width:100%;
+}
+
+.method-list{
+    flex-direction:column;
+}
+
+.summary-rows{
+    width:100%;
+}
+
+.voucher-row{
+    flex-direction:column;
+}
+
+.voucher-btn{
+    width:100%;
+}
+
+}
+
+@media(max-width:600px){
+
+.page{
+    padding:20px;
+}
+
+.page-title{
+    font-size:22px;
+}
+
+.method-option{
+    font-size:13px;
+}
+
+.plan-card{
+    padding:15px;
+}
+
+}

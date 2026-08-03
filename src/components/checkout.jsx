@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, CreditCard, Landmark, ArrowLeft } from "lucide-react";
 import { formatRupiah } from "../api/payments";
-import "../css/subscript.css";
+import "../css/checkout.css";
 
 const ADMIN_FEE = 3000;
 
@@ -46,9 +46,9 @@ export default function CheckoutPage({ plan, onKembali, onBayar }) {
         <section className="checkout-panel">
           <p className="panel-label">Metode Pembayaran</p>
 
-          <div className="method-list">
+          <div className="method-list-checkout">
             <label
-              className={`method-option ${metode === "card" ? "method-option--active" : ""}`}
+              className={`method-option-checkout ${metode === "card" ? "method-option--active" : ""}`}
             >
               <input
                 type="radio"
