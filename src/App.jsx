@@ -16,6 +16,13 @@ import Pricing from "./components/pricingSubscriber";
 import Checkout from "./components/checkout";
 import Payment from "./components/payment";
 import Profile from "./components/profileUsers";
+import { updateSubscription } from "./api/userApi";
+
+// Anggap "belum berlangganan" kalau kosong/null/undefined ATAU objeknya
+// tidak punya field "name" (mis. MockAPI menyimpan {} bukan null secara default)
+function normalizeSubscription(sub) {
+  return sub && sub.name ? sub : null;
+}
 
 function App() {
   return (
@@ -44,6 +51,15 @@ function AppContent() {
   
   const [expiredNotice, setExpiredNotice] = useState(false);
 
+  // Status langganan user yang sedang login (null = belum berlangganan)
+  // Sumber utamanya field "subscription" pada data user di MockAPI,
+  // yang ikut tersimpan di localStorage("currentUser") saat login.
+  const [subscription, setSubscription] = useState(() => {
+    const user = localStorage.getItem("currentUser");
+    if (!user) return null;
+    return normalizeSubscription(JSON.parse(user).subscription);
+  });
+
   useEffect(() => {
     localStorage.setItem("lastRoute", location.pathname);
       }, [location]);
@@ -59,12 +75,28 @@ function AppContent() {
   const handleLoginSuccess = (user) => {
   setAuth(user);
   localStorage.setItem("currentUser", JSON.stringify(user));
+  setSubscription(normalizeSubscription(user.subscription));
   };
 
   const handleLogout = () => {
   setAuth(null);
   localStorage.removeItem("currentUser");
+  setSubscription(null);
   };
+
+  // Dipanggil dari halaman Payment saat pembayaran berhasil dikonfirmasi.
+  // Simpan status langganan ke MockAPI supaya persisten & ikut ke device/login lain.
+  async function handlePaymentSuccess(plan) {
+    setSubscription(plan); // update UI dulu biar terasa instan
+    if (!auth?.id) return;
+    try {
+      const updatedUser = await updateSubscription(auth.id, plan);
+      setAuth(updatedUser);
+      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+    } catch (err) {
+      console.error("Gagal menyimpan status langganan ke MockAPI:", err);
+    }
+  }
 
   function handlePilihPaket(plan) {
   setSelectedPlan(plan);
@@ -112,7 +144,7 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Home auth={auth} onLogout={handleLogout} />
+              <Home auth={auth} subscription={subscription} onLogout={handleLogout} />
             </>
           ) : (
             <Navigate to="/" replace />
@@ -126,7 +158,7 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Navbar auth={auth} onLogout={handleLogout} />
+              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
               <Users />
             </>
           ) : (
@@ -141,7 +173,7 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Navbar auth={auth} onLogout={handleLogout} />
+              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
               {expiredNotice && (
                 <div className="expired-banner">
                   Waktu pembayaran habis. Silakan pilih paket kembali.
@@ -165,7 +197,7 @@ function AppContent() {
             <Navigate to="/pricing" replace />
           ) : (
             <>
-              <Navbar auth={auth} onLogout={handleLogout} />
+              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
               <Checkout
                 plan={selectedPlan}
                 onKembali={handleKembaliKePricing}
@@ -186,12 +218,14 @@ function AppContent() {
             <Navigate to="/pricing" replace />
           ) : (
             <>
-              <Navbar auth={auth} onLogout={handleLogout} />
+              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
               <Payment
                 plan={selectedPlan}
                 metode={selectedMetode}
+                auth={auth}
                 onKembali={handleKembaliKeCheckout}
                 onExpire={handleExpire}
+                onSuccess={handlePaymentSuccess}
               />
             </>
           )
@@ -204,8 +238,8 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Navbar auth={auth} onLogout={handleLogout} />
-              <Profile />
+              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
+              <Profile subscription={subscription} />
             </>
           ) : (
             <Navigate to="/" replace />

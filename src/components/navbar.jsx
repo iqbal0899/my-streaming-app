@@ -3,12 +3,13 @@ import "../css/navbar.css";
 import Logo from "../assets/Logo.png";
 import ProfileDropdown from "./profileDropdown";
 
-function Navbar({ auth, onLogout }) {
-  console.log(auth);
+function Navbar({ auth, subscription, onLogout}) {
   return (
     <nav className="navbar">
       <div className="nav-logo">
+        <Link to="/home">
         <img src={Logo} alt="logo" className="logo" />
+        </Link>
       </div>
 
       <ul className="nav-links">
@@ -28,7 +29,12 @@ function Navbar({ auth, onLogout }) {
       </ul>
 
       <div>
-        <ProfileDropdown name={auth?.name} email={auth?.email} onLogout={onLogout} />
+        <ProfileDropdown
+          name={auth?.name}
+          email={auth?.email}
+          subscription={subscription}
+          onLogout={onLogout}
+        />
       </div>
       
     </nav>

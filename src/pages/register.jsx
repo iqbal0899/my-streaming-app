@@ -74,7 +74,7 @@ function Register() {
         <input
           type="text"
           placeholder="Masukkan nama lengkap"
-          value={name}
+          value={name ?? ""}
           onChange={(e) => setName(e.target.value)}
         />
 
@@ -82,7 +82,7 @@ function Register() {
         <input
           type="email"
           placeholder="Masukkan email sebagai username"
-          value={username}
+          value={username ?? ""}
           onChange={(e) => setUsername(e.target.value)}
         />
 
@@ -90,7 +90,7 @@ function Register() {
         <input
           type="password"
           placeholder="Minimal 6 karakter"
-          value={password}
+          value={password ?? ""}
           onChange={(e) => setPassword(e.target.value)}
         />
 
@@ -98,7 +98,7 @@ function Register() {
         <input
           type="password"
           placeholder="Ulangi kata sandi"
-          value={confirmPassword}
+          value={confirmPassword ?? ""}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 

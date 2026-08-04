@@ -11,7 +11,7 @@ display: flex;
   padding: 14px 28px;
 }
 
-.nav-logo{
+.menu-button .nav-logo{
   display: flex;
   align-items: center;
   gap: 8px;
@@ -23,7 +23,7 @@ display: flex;
   white-space: nowrap;
 }
 
-.nav-logo img {
+.menu-button .nav-logo img {
     width: 70px;
 }
 

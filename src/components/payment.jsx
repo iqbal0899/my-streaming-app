@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Check, CreditCard, Landmark, Copy, CheckCheck, ArrowLeft } from "lucide-react";
 import {
   formatRupiah,
@@ -6,6 +7,11 @@ import {
   generateKodePembayaran,
   formatCountdown,
 } from "../api/payments";
+import {
+  createTransaction,
+  updateTransactionStatus,
+} from "../api/transaction";
+import Invoice from "./invoice";
 import "../css/subscript.css";
 
 const ADMIN_FEE = 3000;
@@ -27,26 +33,77 @@ const vaSteps = [
   "Masukkan nomor virtual account dan jumlah pembayaran, lalu konfirmasikan pembayaran.",
 ];
 
-export default function PaymentPage({ plan, metode, onKembali, onExpire }) {
+export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, onSuccess }) {
+  const navigate = useNavigate();
   const [secondsLeft, setSecondsLeft] = useState(DURATION_SECONDS);
   const [copied, setCopied] = useState(false);
   const [status, setStatus] = useState("idle");
+  const [transactionId, setTransactionId] = useState(null);
+  const [trxError, setTrxError] = useState("");
   const kodeRef = useRef(generateKodePembayaran());
   const tanggalRef = useRef(formatTanggal(new Date()));
 
+  const hargaPaket = Math.floor(plan.price / 1000) * 1000;
+  const total = hargaPaket + ADMIN_FEE;
+
+  // Catat transaksi "pending" ke MockAPI begitu halaman payment dibuka
+  useEffect(() => {
+    let cancelled = false;
+
+    async function catatTransaksi() {
+      try {
+        const trx = await createTransaction({
+          email: auth?.email || null,
+          planId: plan.id,
+          planName: plan.name,
+          metode,
+          hargaPaket,
+          adminFee: ADMIN_FEE,
+          total,
+          kodePembayaran: kodeRef.current,
+          tanggal: tanggalRef.current,
+          status: "pending",
+        });
+        if (!cancelled) setTransactionId(trx.id);
+      } catch (err) {
+        console.error(
+          "Gagal mencatat transaksi ke MockAPI:",
+          err.response?.data || err.message
+        );
+        if (!cancelled) {
+          setTrxError("Gagal terhubung ke server. Kode pembayaran tetap bisa dipakai.");
+        }
+      }
+    }
+
+    catatTransaksi();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (secondsLeft <= 0) {
-      onExpire();
+      (async () => {
+        try {
+          if (transactionId) {
+            await updateTransactionStatus(transactionId, "expired");
+          }
+        } catch (err) {
+          console.error("Gagal update status transaksi (expired) ke MockAPI:", err);
+        } finally {
+          onExpire();
+        }
+      })();
       return;
     }
     const timer = setInterval(() => {
       setSecondsLeft((s) => s - 1);
     }, 1000);
     return () => clearInterval(timer);
-  }, [secondsLeft, onExpire]);
+  }, [secondsLeft, onExpire, transactionId]);
 
-  const hargaPaket = Math.floor(plan.price / 1000) * 1000;
-  const total = hargaPaket + ADMIN_FEE;
   const { jam, menit, detik } = formatCountdown(secondsLeft);
   const steps = metode === "va" ? vaSteps : cardSteps;
 
@@ -56,8 +113,38 @@ export default function PaymentPage({ plan, metode, onKembali, onExpire }) {
     setTimeout(() => setCopied(false), 1500);
   }
 
-  function handleBayar() {
+  async function handleBayar() {
     setStatus("success");
+    try {
+      if (transactionId) {
+        await updateTransactionStatus(transactionId, "success");
+      }
+    } catch (err) {
+      console.error("Gagal update status transaksi (success) ke MockAPI:", err);
+    }
+    onSuccess?.(plan);
+  }
+
+  if (status === "success") {
+    return (
+      <div className="page">
+        <Invoice
+          trx={{
+            kodePembayaran: kodeRef.current,
+            tanggal: tanggalRef.current,
+            planName: plan.name,
+            akun: plan.akun,
+            metode,
+            hargaPaket,
+            adminFee: ADMIN_FEE,
+            total,
+            email: auth?.email,
+            nama: auth?.name,
+          }}
+          onKembali={() => navigate("/home")}
+        />
+      </div>
+    );
   }
 
   return (
@@ -78,6 +165,8 @@ export default function PaymentPage({ plan, metode, onKembali, onExpire }) {
       </div>
 
       <h1 className="page-title">Ringkasan Pembayaran</h1>
+
+      {trxError && <p className="login-error" style={{ marginBottom: 12 }}>{trxError}</p>}
 
       <div className="checkout-grid">
         <aside className="plan-card plan-card--summary">
@@ -156,13 +245,9 @@ export default function PaymentPage({ plan, metode, onKembali, onExpire }) {
             ))}
           </ol>
 
-          {status === "success" ? (
-            <p className="pay-success">Pembayaran berhasil dikonfirmasi.</p>
-          ) : (
-            <button type="button" className="pay-btn" onClick={handleBayar}>
-              Bayar
-            </button>
-          )}
+          <button type="button" className="pay-btn" onClick={handleBayar}>
+            Bayar
+          </button>
         </section>
       </div>
     </div>

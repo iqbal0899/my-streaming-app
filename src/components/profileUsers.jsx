@@ -13,7 +13,7 @@ const shows = [
   { id: 6, title: "Duty After School", badge: "Episode Baru", corner: "10", from: "#4a4f57", to: "#15171b" },
 ];
 
-export default function ProfilSaya() {
+export default function ProfilSaya({ subscription }) {
   const [nama, setNama] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -122,13 +122,26 @@ function handlePricingClick() {
         {/* Subscription promo */}
         <aside className="ps-promo">
           <div className="ps-promo-icon">&#9733;</div>
-          <p className="ps-promo-title">Saat ini Anda belum berlangganan</p>
-          <p className="ps-promo-body">
-            Dapatkan akses tak terbatas ke ribuan film dan series favorit Anda.
-          </p>
-          <button type="button" className="ps-promo-cta" onClick={  handlePricingClick}>
-            Mulai Berlangganan
-          </button>
+          {subscription ? (
+            <>
+              <p className="ps-promo-title">
+                Anda berlangganan paket {subscription.name}
+              </p>
+              <p className="ps-promo-body">
+                Nikmati akses tak terbatas ke ribuan film dan series favorit Anda.
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="ps-promo-title">Saat ini Anda belum berlangganan</p>
+              <p className="ps-promo-body">
+                Dapatkan akses tak terbatas ke ribuan film dan series favorit Anda.
+              </p>
+              <button type="button" className="ps-promo-cta" onClick={handlePricingClick}>
+                Mulai Berlangganan
+              </button>
+            </>
+          )}
         </aside>
       </div>
 

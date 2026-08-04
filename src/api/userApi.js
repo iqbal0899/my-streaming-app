@@ -22,6 +22,13 @@ export async function updateUser(id, data) {
   return res.data;
 }
 
+// Simpan/ubah status langganan user ke MockAPI.
+// `subscription` bisa berupa objek paket (mis. { id, name, price, ... }) atau null kalau belum berlangganan.
+export async function updateSubscription(id, subscription) {
+  const res = await axiosApi.put(`/users/${id}`, { subscription });
+  return res.data;
+}
+
 export async function deleteUser(id) {
   await axiosApi.delete(`/users/${id}`);
 }

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/profileDropdown.css"
 import profile from "../assets/big-hero.png";
 
-function ProfileDropdown({ name, email, image, onLogout}) {
+function ProfileDropdown({ name, email, image, subscription, onLogout }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
   const navigate = useNavigate();
@@ -25,6 +25,11 @@ function ProfileDropdown({ name, email, image, onLogout}) {
   function handleProfileClick() {
     setOpen(false);
     navigate("/profile");
+  }
+
+  function handleSubscriptionClick() {
+    setOpen(false);
+    navigate("/pricing");
   }
 
   return (
@@ -53,8 +58,8 @@ function ProfileDropdown({ name, email, image, onLogout}) {
             👤 Profile Saya
           </button>
 
-          <button className="dropdown-item">
-            ⭐ Premium
+          <button className="dropdown-item" onClick={handleSubscriptionClick}>
+            {subscription?.name ? `Berlangganan ${subscription.name}` : 'Belum Berlangganan'}
           </button>
 
           <button className="dropdown-item logout" onClick={onLogout}>
