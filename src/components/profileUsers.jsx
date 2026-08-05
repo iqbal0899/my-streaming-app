@@ -3,14 +3,52 @@ import { Pencil, Camera, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {getUsers} from "../services/api/userApi";
 import "../css/profileUsers.css";
+import Ted from "../assets/ted.png";
+import Bola from "../assets/bola.png";
+import Hero from "../assets/academia.png";
+import Dead from "../assets/dead.png";
+import Duty from "../assets/duty.png";
+import Big from "../assets/baymax.png";
+
 
 const shows = [
-  { id: 1, title: "Lioren Regel", badge: "Episode Baru", corner: "10", from: "#3a4a2e", to: "#1c2417" },
-  { id: 2, title: "Baymax!", badge: "Episode Baru", corner: "XI", from: "#e0507a", to: "#7a2340" },
-  { id: 3, title: "My Hero Academia", badge: "Episode Baru", corner: "10", from: "#f2c53d", to: "#8a5a12" },
-  { id: 4, title: "Blue Lock", badge: "Episode Baru", corner: "10", from: "#3d7de0", to: "#182a4a" },
-  { id: 5, title: "Ted Lasso", badge: "Episode Baru", corner: "30", from: "#d6432c", to: "#5c1c12" },
-  { id: 6, title: "Duty After School", badge: "Episode Baru", corner: "10", from: "#4a4f57", to: "#15171b" },
+  {
+    id: 1,
+    title: "All of Us are Dead",
+    badge: "Episode Baru",
+    image: Dead,
+  },
+  {
+    id: 2,
+    title: "Baymax!",
+    badge: "Episode Baru",
+    image: Big,
+  },
+  {
+    id: 3,
+    title: "My Hero Academia",
+    badge: "Episode Baru",
+    image: Hero,
+  },
+  {
+    id: 4,
+    title: "Blue Lock",
+    badge: "Episode Baru",
+    image: Bola,
+  },
+  {
+    id: 5,
+    title: "Ted Lasso",
+    badge: "Episode Baru",
+    corner: "30",
+    image: Ted,
+  },
+  {
+    id: 6,
+    title: "Duty After School",
+    badge: "Episode Baru",
+    image: Duty,
+  },
 ];
 
 export default function ProfilSaya({ subscription }) {
@@ -156,13 +194,13 @@ function handlePricingClick() {
       <div className="ps-rail">
         {shows.map((s) => (
           <div key={s.id} className="ps-poster">
-            <div
-              className="ps-poster-art"
-              style={{ background: `linear-gradient(160deg, ${s.from}, ${s.to})` }}
-            >
-              <span className="ps-corner">{s.corner}</span>
-              <span className="ps-ribbon">{s.badge}</span>
-            </div>
+            <div className="ps-poster-art">
+              <img
+                  src={s.image}
+                  alt={s.title}
+                  className="ps-poster-image"/>
+                  <span className="ps-ribbon">{s.badge}</span>
+                </div>
             <p className="ps-poster-title">{s.title}</p>
           </div>
         ))}
