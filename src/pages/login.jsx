@@ -4,7 +4,7 @@ import "../css/login.css";
 import Logo from "../assets/Logo.png";
 import Button from "../components/button";
 import GoogleButton from "../components/buttonGoogle";
-import { getUsers } from "../api/userApi";
+import { getUsers } from "../services/api/userApi";
 
 function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState("");

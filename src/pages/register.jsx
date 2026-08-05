@@ -4,7 +4,7 @@ import "../css/register.css";
 import Logo from "../assets/Logo.png";
 import Button from "../components/button";
 import GoogleButton from "../components/buttonGoogle";
-import { getUsers, createUser } from "../api/userApi";
+import { getUsers, createUser } from "../services/api/userApi";
 
 function Register() {
   const [name, setName] = useState("");

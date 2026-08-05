@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check, CreditCard, Landmark, ArrowLeft } from "lucide-react";
-import { formatRupiah } from "../api/payments";
+import { formatRupiah } from "../services/api/payments";
 import "../css/checkout.css";
 
 const ADMIN_FEE = 3000;

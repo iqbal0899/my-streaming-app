@@ -1,7 +1,7 @@
-// api/transactions.js — createTransaction, updateTransactionStatus, getTransactionsByEmail, semua lewat axiosApi (yang kamu upload, sudah oke, tidak diubah) ke resource /transactions di MockAPI.
+// api/transactions.js — createTransaction, updateTransactionStatus, getTransactionsByEmail, semua lewat axiosApi ke resource /transactions di MockAPI.
 // payment.jsx:
 // Begitu halaman payment dibuka → otomatis POST /transactions dengan status "pending" (isi: email, plan, metode, kode pembayaran, tanggal, total).
-// Klik Bayar → PUT /transactions/:id status jadi "success", baru lanjut ke onSuccess(plan) (yang di App.jsx meng-update subscription user seperti sebelumnya).
+// Klik Bayar → PUT /transactions/:id status jadi "success", baru lanjut ke onSuccess(plan).
 // Kalau countdown habis → PUT status jadi "expired" sebelum redirect balik ke pricing.
 // Kalau gagal konek ke MockAPI, tidak menghalangi user tetap bisa lanjut bayar (fail-safe), cuma tampil notice kecil.
 // App.jsx — teruskan auth ke <Payment> supaya transaksi bisa dikaitkan ke email user yang login.

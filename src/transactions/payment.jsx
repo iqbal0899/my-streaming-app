@@ -2,16 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Check, CreditCard, Landmark, Copy, CheckCheck, ArrowLeft } from "lucide-react";
 import {
+  generateNoInvoice,
   formatRupiah,
   formatTanggal,
   generateKodePembayaran,
   formatCountdown,
-} from "../api/payments";
+} from "../services/api/payments";
 import {
   createTransaction,
   updateTransactionStatus,
-} from "../api/transaction";
-import Invoice from "./invoice";
+} from "../services/api/transaction";
+import Invoice from "../report/invoice";
 import "../css/subscript.css";
 
 const ADMIN_FEE = 3000;
@@ -39,8 +40,10 @@ export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, o
   const [copied, setCopied] = useState(false);
   const [status, setStatus] = useState("idle");
   const [transactionId, setTransactionId] = useState(null);
+  const [trxSaving, setTrxSaving] = useState(true);
   const [trxError, setTrxError] = useState("");
   const kodeRef = useRef(generateKodePembayaran());
+  const noInvoiceRef = useRef(generateNoInvoice());
   const tanggalRef = useRef(formatTanggal(new Date()));
 
   const hargaPaket = Math.floor(plan.price / 1000) * 1000;
@@ -63,6 +66,7 @@ export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, o
           kodePembayaran: kodeRef.current,
           tanggal: tanggalRef.current,
           status: "pending",
+          noInvoice: noInvoiceRef.current,
         });
         if (!cancelled) setTransactionId(trx.id);
       } catch (err) {
@@ -73,6 +77,8 @@ export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, o
         if (!cancelled) {
           setTrxError("Gagal terhubung ke server. Kode pembayaran tetap bisa dipakai.");
         }
+      } finally {
+        if (!cancelled) setTrxSaving(false);
       }
     }
 
@@ -130,6 +136,7 @@ export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, o
       <div className="page">
         <Invoice
           trx={{
+            noInvoice: noInvoiceRef.current,
             kodePembayaran: kodeRef.current,
             tanggal: tanggalRef.current,
             planName: plan.name,
@@ -207,6 +214,10 @@ export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, o
               <span>{tanggalRef.current}</span>
             </div>
             <div className="detail-row">
+              <span>No. Invoice</span>
+              <span>{noInvoiceRef.current}</span>
+            </div>
+            <div className="detail-row">
               <span>Kode Pembayaran</span>
               <span className="kode-cell">
                 {kodeRef.current}
@@ -245,8 +256,8 @@ export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, o
             ))}
           </ol>
 
-          <button type="button" className="pay-btn" onClick={handleBayar}>
-            Bayar
+          <button type="button" className="pay-btn" onClick={handleBayar} disabled={trxSaving}>
+            {trxSaving ? "Menyiapkan pembayaran..." : "Bayar"}
           </button>
         </section>
       </div>

@@ -7,7 +7,7 @@ import {
   MessageSquareText,
   Check,
 } from "lucide-react";
-import { formatRupiah } from "../api/payments";
+import { formatRupiah } from "../services/api/payments";
 import "../css/subscript.css";
 
 const benefits = [

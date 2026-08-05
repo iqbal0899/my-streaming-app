@@ -1,6 +1,6 @@
 import { CheckCircle2, Printer } from "lucide-react";
 import Logo from "../assets/Logo.png";
-import { formatRupiah } from "../api/payments";
+import { formatRupiah } from "../services/api/payments";
 import "../css/invoice.css";
 
 /**
@@ -15,6 +15,7 @@ export default function Invoice({ trx, onKembali }) {
   if (!trx) return null;
 
   const {
+    noInvoice,
     kodePembayaran,
     tanggal,
     planName,
@@ -48,6 +49,10 @@ export default function Invoice({ trx, onKembali }) {
         <div className="inv-meta">
           <div>
             <p className="inv-meta-label">No. Invoice</p>
+            <p className="inv-meta-value">{noInvoice}</p>
+          </div>
+          <div>
+            <p className="inv-meta-label">Kode Pembayaran</p>
             <p className="inv-meta-value">{kodePembayaran}</p>
           </div>
           <div>

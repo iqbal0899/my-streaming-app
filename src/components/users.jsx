@@ -4,7 +4,7 @@ import {
   createUser,
   updateUser,
   deleteUser,
-} from "../api/userApi";
+} from "../services/api/userApi";
 
 import "../css/users.css";
 

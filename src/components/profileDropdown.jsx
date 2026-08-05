@@ -32,6 +32,11 @@ function ProfileDropdown({ name, email, image, subscription, onLogout }) {
     navigate("/pricing");
   }
 
+  function handleRiwayatClick() {
+    setOpen(false);
+    navigate("/riwayat-transaksi");
+  }
+
   return (
     <div className="profile-container" ref={menuRef}> 
       <img
@@ -62,6 +67,10 @@ function ProfileDropdown({ name, email, image, subscription, onLogout }) {
             {subscription?.name ? `Berlangganan ${subscription.name}` : 'Belum Berlangganan'}
           </button>
 
+          <button className="dropdown-item" onClick={handleRiwayatClick}>
+            🧾 Riwayat Transaksi
+          </button>
+
           <button className="dropdown-item logout" onClick={onLogout}>
             🚪 Keluar
           </button>
@@ -72,4 +81,4 @@ function ProfileDropdown({ name, email, image, subscription, onLogout }) {
   );
 }
 
-export default ProfileDropdown;
+export default ProfileDropdown; 

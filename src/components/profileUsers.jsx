@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Pencil, Camera, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {getUsers} from "../api/userApi";
+import {getUsers} from "../services/api/userApi";
 import "../css/profileUsers.css";
 
 const shows = [
@@ -103,9 +103,9 @@ function handlePricingClick() {
           </div>
 
           <form onSubmit={handleSimpan}>
-            <Field label="Nama Pengguna" value={nama} onChange={setNama} />
-            <Field label="Email" value={email} onChange={setEmail} type="email" />
-            <Field label="Kata Sandi" value={password} onChange={setPassword} type="password" />
+            <Field label="Nama Pengguna" value={nama ?? ""} onChange={setNama} />
+            <Field label="Email" value={email ?? ""} onChange={setEmail} type="email" />
+            <Field label="Kata Sandi" value={password ?? ""} onChange={setPassword} type="password" />
 
             <button type="submit" className="ps-save-btn">
               {saved ? (
@@ -122,7 +122,7 @@ function handlePricingClick() {
         {/* Subscription promo */}
         <aside className="ps-promo">
           <div className="ps-promo-icon">&#9733;</div>
-          {subscription ? (
+          {subscription?.name ? (
             <>
               <p className="ps-promo-title">
                 Anda berlangganan paket {subscription.name}

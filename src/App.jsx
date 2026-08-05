@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -7,22 +7,19 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Users from "./components/users";
 import Navbar from "./components/navbar";
 import Home from "./pages/home";
-import Pricing from "./components/pricingSubscriber";
-import Checkout from "./components/checkout";
-import Payment from "./components/payment";
+import Pricing from "./transactions/pricingSubscriber";
+import Checkout from "./transactions/checkout";
+import Payment from "./transactions/payment";
 import Profile from "./components/profileUsers";
-import { updateSubscription } from "./api/userApi";
-
-// Anggap "belum berlangganan" kalau kosong/null/undefined ATAU objeknya
-// tidak punya field "name" (mis. MockAPI menyimpan {} bukan null secara default)
-function normalizeSubscription(sub) {
-  return sub && sub.name ? sub : null;
-}
+import RiwayatTransaksi from "./report/transactionHistory";
+import { loginSuccess, logout, confirmPayment } from "./store/authSlice";
+import { pilihPaket, pilihMetode, setExpiredNotice } from "./store/checkoutSlice";
 
 function App() {
   return (
@@ -35,80 +32,47 @@ function App() {
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const [auth, setAuth] = useState(() => {
-    const user = localStorage.getItem("currentUser");
-    return user ? JSON.parse(user) : null;}); // null = belum login, isi objek user kalau sudah login
+  const dispatch = useDispatch();
 
-  const [selectedPlan, setSelectedPlan] = useState(() => {
-    const plan = localStorage.getItem("selectedPlan");
-    return plan ? JSON.parse(plan) : null;});
-
-
-  const [selectedMetode, setSelectedMetode] = useState(() => {
-    return localStorage.getItem("selectedMetode") || "card";});
-  
-  
-  const [expiredNotice, setExpiredNotice] = useState(false);
-
-  // Status langganan user yang sedang login (null = belum berlangganan)
-  // Sumber utamanya field "subscription" pada data user di MockAPI,
-  // yang ikut tersimpan di localStorage("currentUser") saat login.
-  const [subscription, setSubscription] = useState(() => {
-    const user = localStorage.getItem("currentUser");
-    if (!user) return null;
-    return normalizeSubscription(JSON.parse(user).subscription);
-  });
+  // Ambil semua state dari Redux store (menggantikan useState sebelumnya)
+  const auth = useSelector((state) => state.auth.auth);
+  const subscription = useSelector((state) => state.auth.subscription);
+  const selectedPlan = useSelector((state) => state.checkout.selectedPlan);
+  const selectedMetode = useSelector((state) => state.checkout.selectedMetode);
+  const expiredNotice = useSelector((state) => state.checkout.expiredNotice);
 
   useEffect(() => {
     localStorage.setItem("lastRoute", location.pathname);
-      }, [location]);
+  }, [location]);
 
-  
   useEffect(() => {
     const lastRoute = localStorage.getItem("lastRoute");
     if (auth && lastRoute && location.pathname === "/") {
-    navigate(lastRoute, { replace: true }); 
-    }}, 
-    [auth, navigate, location.pathname]);
+      navigate(lastRoute, { replace: true });
+    }
+  }, [auth, navigate, location.pathname]);
 
   const handleLoginSuccess = (user) => {
-  setAuth(user);
-  localStorage.setItem("currentUser", JSON.stringify(user));
-  setSubscription(normalizeSubscription(user.subscription));
+    dispatch(loginSuccess(user));
   };
 
   const handleLogout = () => {
-  setAuth(null);
-  localStorage.removeItem("currentUser");
-  setSubscription(null);
+    dispatch(logout());
   };
 
   // Dipanggil dari halaman Payment saat pembayaran berhasil dikonfirmasi.
-  // Simpan status langganan ke MockAPI supaya persisten & ikut ke device/login lain.
-  async function handlePaymentSuccess(plan) {
-    setSubscription(plan); // update UI dulu biar terasa instan
-    if (!auth?.id) return;
-    try {
-      const updatedUser = await updateSubscription(auth.id, plan);
-      setAuth(updatedUser);
-      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-    } catch (err) {
-      console.error("Gagal menyimpan status langganan ke MockAPI:", err);
-    }
+  function handlePaymentSuccess(plan) {
+    dispatch(confirmPayment(plan));
   }
 
   function handlePilihPaket(plan) {
-  setSelectedPlan(plan);
-  localStorage.setItem("selectedPlan", JSON.stringify(plan));
-  setExpiredNotice(false);
-  navigate("/checkout");
+    dispatch(pilihPaket(plan));
+    navigate("/checkout");
   }
 
   function handleBayarCheckout(metode) {
-  setSelectedMetode(metode);
-  localStorage.setItem("selectedMetode", metode);
-  navigate("/payment");
+    dispatch(pilihMetode(metode));
+    navigate("/payment");
   }
 
   function handleKembaliKePricing() {
@@ -120,7 +84,7 @@ function AppContent() {
   }
 
   function handleExpire() {
-    setExpiredNotice(true);
+    dispatch(setExpiredNotice(true));
     navigate("/pricing");
   }
 
@@ -240,6 +204,21 @@ function AppContent() {
             <>
               <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
               <Profile subscription={subscription} />
+            </>
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      />
+
+      {/* Halaman riwayat transaksi user */}
+      <Route
+        path="/riwayat-transaksi"
+        element={
+          auth ? (
+            <>
+              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
+              <RiwayatTransaksi />
             </>
           ) : (
             <Navigate to="/" replace />
