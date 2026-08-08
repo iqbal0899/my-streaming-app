@@ -43,9 +43,17 @@ const plans = [
   },
 ];
 
-export default function PricingPage({ onPilihPaket }) {
+export default function PricingPage({ onPilihPaket, activePayment, onLanjutkan }) {
   return (
     <div className="page">
+      {activePayment && (
+        <div className="expired-banner">
+          Kamu masih punya pembayaran yang belum selesai untuk paket{" "}
+          <strong>{activePayment.plan.name}</strong>. Selesaikan dulu sebelum
+          memilih paket lain.
+        </div>
+      )}
+
       <section className="benefits">
         <h2 className="benefits-title">Kenapa Harus Berlangganan?</h2>
         <div className="benefits-grid">
@@ -65,33 +73,39 @@ export default function PricingPage({ onPilihPaket }) {
         <p className="plans-subtitle">Temukan paket sesuai kebutuhanmu</p>
 
         <div className="plans-grid">
-          {plans.map((plan) => (
-            <div className="plan-card" key={plan.id}>
-              <span className="plan-badge">{plan.name}</span>
-              <p className="plan-price">
-                Mulai dari {formatRupiah(plan.price)}/bulan
-              </p>
-              <p className="plan-akun">{plan.akun}</p>
+          {plans.map((plan) => {
+            const isActivePlan = activePayment?.plan.id === plan.id;
+            const isBlocked = Boolean(activePayment) && !isActivePlan;
 
-              <ul className="plan-features">
-                {plan.features.map((f) => (
-                  <li key={f}>
-                    <Check size={14} />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
+            return (
+              <div className="plan-card" key={plan.id}>
+                <span className="plan-badge">{plan.name}</span>
+                <p className="plan-price">
+                  Mulai dari {formatRupiah(plan.price)}/bulan
+                </p>
+                <p className="plan-akun">{plan.akun}</p>
 
-              <button
-                type="button"
-                className="plan-cta"
-                onClick={() => onPilihPaket(plan)}
-              >
-                Langganan
-              </button>
-              <p className="plan-note">Syarat dan Ketentuan Berlaku</p>
-            </div>
-          ))}
+                <ul className="plan-features">
+                  {plan.features.map((f) => (
+                    <li key={f}>
+                      <Check size={14} />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  type="button"
+                  className="plan-cta"
+                  disabled={isBlocked}
+                  onClick={() => (isActivePlan ? onLanjutkan() : onPilihPaket(plan))}
+                >
+                  {isActivePlan ? "Lanjutkan Pembayaran" : "Langganan"}
+                </button>
+                <p className="plan-note">Syarat dan Ketentuan Berlaku</p>
+              </div>
+            );
+          })}
         </div>
       </section>
     </div>

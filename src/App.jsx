@@ -21,6 +21,20 @@ import RiwayatTransaksi from "./report/transactionHistory";
 import { loginSuccess, logout, confirmPayment } from "./store/authSlice";
 import { pilihPaket, pilihMetode, setExpiredNotice } from "./store/checkoutSlice";
 
+// Cek apakah user punya sesi pembayaran yang masih berjalan (belum expired,
+// belum sukses) untuk paket yang sedang dipilih. Sumbernya deadline yang
+// disimpan payment.jsx ke localStorage, key: paymentDeadline_{email}_{planId}.
+function getActivePaymentInfo(auth, selectedPlan) {
+  if (!selectedPlan) return null;
+  const authKey = auth?.email || "guest";
+  const deadlineKey = `paymentDeadline_${authKey}_${selectedPlan.id}`;
+  const deadline = Number(localStorage.getItem(deadlineKey));
+  if (deadline && deadline > Date.now()) {
+    return { plan: selectedPlan, deadline };
+  }
+  return null;
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -40,6 +54,8 @@ function AppContent() {
   const selectedPlan = useSelector((state) => state.checkout.selectedPlan);
   const selectedMetode = useSelector((state) => state.checkout.selectedMetode);
   const expiredNotice = useSelector((state) => state.checkout.expiredNotice);
+
+  const activePayment = getActivePaymentInfo(auth, selectedPlan);
 
   useEffect(() => {
     localStorage.setItem("lastRoute", location.pathname);
@@ -66,8 +82,19 @@ function AppContent() {
   }
 
   function handlePilihPaket(plan) {
+    if (activePayment && activePayment.plan.id !== plan.id) {
+      alert(
+        `Kamu masih punya pembayaran yang belum selesai untuk paket "${activePayment.plan.name}". Selesaikan dulu sebelum memilih paket lain.`
+      );
+      navigate("/payment");
+      return;
+    }
     dispatch(pilihPaket(plan));
     navigate("/checkout");
+  }
+
+  function handleLanjutkanPembayaran() {
+    navigate("/payment");
   }
 
   function handleBayarCheckout(metode) {
@@ -143,7 +170,11 @@ function AppContent() {
                   Waktu pembayaran habis. Silakan pilih paket kembali.
                 </div>
               )}
-              <Pricing onPilihPaket={handlePilihPaket} />
+              <Pricing
+                onPilihPaket={handlePilihPaket}
+                activePayment={activePayment}
+                onLanjutkan={handleLanjutkanPembayaran}
+              />
             </>
           ) : (
             <Navigate to="/" replace />
@@ -166,6 +197,7 @@ function AppContent() {
                 plan={selectedPlan}
                 onKembali={handleKembaliKePricing}
                 onBayar={handleBayarCheckout}
+                onExpire={handleExpire}
               />
             </>
           )

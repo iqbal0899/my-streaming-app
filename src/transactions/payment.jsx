@@ -16,7 +16,25 @@ import Invoice from "../report/invoice";
 import "../css/subscript.css";
 
 const ADMIN_FEE = 3000;
-const DURATION_SECONDS = 60 * 60;
+const DURATION_SECONDS = 15 * 60;
+
+// Hitung sisa detik berdasarkan deadline waktu asli (bukan cuma state di memori),
+// supaya refresh/tutup-buka halaman tidak memperpanjang waktu bayar.
+// `key` dibuat unik per user + per paket, supaya tidak bentrok antar akun.
+function getInitialSecondsLeft(key) {
+  const now = Date.now();
+  const saved = localStorage.getItem(key);
+
+  if (saved) {
+    const deadline = Number(saved);
+    const sisa = Math.floor((deadline - now) / 1000);
+    return sisa > 0 ? sisa : 0;
+  }
+
+  const deadline = now + DURATION_SECONDS * 1000;
+  localStorage.setItem(key, String(deadline));
+  return DURATION_SECONDS;
+}
 
 const cardSteps = [
   "Masukkan nomor kartu debit/kredit, tanggal kadaluarsa, dan CVV.",
@@ -36,7 +54,12 @@ const vaSteps = [
 
 export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, onSuccess }) {
   const navigate = useNavigate();
-  const [secondsLeft, setSecondsLeft] = useState(DURATION_SECONDS);
+
+  // Key unik per akun + per paket, supaya deadline pembayaran satu user
+  // tidak ikut kepakai/kebawa ke user lain yang login di browser yang sama.
+  const deadlineKey = `paymentDeadline_${auth?.email || "guest"}_${plan.id}`;
+
+  const [secondsLeft, setSecondsLeft] = useState(() => getInitialSecondsLeft(deadlineKey));
   const [copied, setCopied] = useState(false);
   const [status, setStatus] = useState("idle");
   const [transactionId, setTransactionId] = useState(null);
@@ -99,6 +122,7 @@ export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, o
         } catch (err) {
           console.error("Gagal update status transaksi (expired) ke MockAPI:", err);
         } finally {
+          localStorage.removeItem(deadlineKey);
           onExpire();
         }
       })();
@@ -121,6 +145,7 @@ export default function PaymentPage({ plan, metode, auth, onKembali, onExpire, o
 
   async function handleBayar() {
     setStatus("success");
+    localStorage.removeItem(deadlineKey);
     try {
       if (transactionId) {
         await updateTransactionStatus(transactionId, "success");
