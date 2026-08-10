@@ -10,6 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import Forget from "./pages/lupaPassword";
 import Users from "./components/users";
 import Navbar from "./components/navbar";
 import Home from "./pages/home";
@@ -128,6 +129,9 @@ function AppContent() {
 
       {/* Halaman registrasi */}
       <Route path="/register" element={<Register />} />
+
+      {/* Halaman lupa password */}
+      <Route path="/forget" element={<Forget />} />
 
       {/* Halaman utama setelah login */}
       <Route

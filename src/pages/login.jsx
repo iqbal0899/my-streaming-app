@@ -96,9 +96,8 @@ function Login({ onLoginSuccess }) {
             Belum punya akun? <Link to="/register">Daftar</Link>
           </span>
 
-          <a href="#" className="forgot-password">
-            Lupa kata sandi?
-          </a>
+          <Link to="/forget">
+            Lupa kata sandi? </Link>
         </div>
 
         <div className="mb-3">
