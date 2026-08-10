@@ -7,8 +7,8 @@ import GoogleButton from "../components/buttonGoogle";
 import { getUsers, createUser } from "../services/api/userApi";
 
 function Register() {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
+  const [nama, setNama] = useState("");
+  const [username, setUsername] = useState(""); // dipakai sebagai email
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,6 +16,9 @@ function Register() {
   const navigate = useNavigate();
 
   const validate = async () => {
+    if (!nama.trim()) {
+      return "Nama tidak boleh kosong";
+    }
     if (!username.includes("@")) {
       return "Username harus berupa email (mengandung karakter @)";
     }
@@ -24,9 +27,6 @@ function Register() {
     }
     if (password !== confirmPassword) {
       return "Konfirmasi password tidak sama dengan password";
-    }
-    if (!name.trim()) {
-      return "Nama tidak boleh kosong";
     }
 
     const users = await getUsers();
@@ -50,16 +50,13 @@ function Register() {
         return;
       }
 
-      // Simpan akun baru ke MockAPI supaya halaman Login bisa memvalidasinya
-      await createUser({ name, email: username, password });
+      await createUser({ nama, email: username, password });
 
       setSubmitting(false);
-
-      // Setelah daftar berhasil, arahkan ke halaman Login
-      navigate("/login");
+      navigate("/"); // balik ke halaman Login
     } catch (err) {
       setSubmitting(false);
-      setError("Gagal terhubung ke server. Coba lagi.");
+      setError(err.message || "Gagal terhubung ke server. Coba lagi.");
       console.error(err);
     }
   };
@@ -74,15 +71,15 @@ function Register() {
         <input
           type="text"
           placeholder="Masukkan nama lengkap"
-          value={name ?? ""}
-          onChange={(e) => setName(e.target.value)}
+          value={nama}
+          onChange={(e) => setNama(e.target.value)}
         />
 
         <h3>Username</h3>
         <input
           type="email"
           placeholder="Masukkan email sebagai username"
-          value={username ?? ""}
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
 
@@ -90,7 +87,7 @@ function Register() {
         <input
           type="password"
           placeholder="Minimal 6 karakter"
-          value={password ?? ""}
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
@@ -98,7 +95,7 @@ function Register() {
         <input
           type="password"
           placeholder="Ulangi kata sandi"
-          value={confirmPassword ?? ""}
+          value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
@@ -106,7 +103,7 @@ function Register() {
 
         <div className="akun">
           <span>
-            Sudah punya akun? <Link to="/login">Masuk</Link>
+            Sudah punya akun? <Link to="/">Masuk</Link>
           </span>
         </div>
 

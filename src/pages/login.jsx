@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/login.css";
 import Logo from "../assets/Logo.png";
 import Button from "../components/button";
 import GoogleButton from "../components/buttonGoogle";
-import { getUsers } from "../services/api/userApi";
+import { loginUser } from "../services/api/userApi";
 
 function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState("");
@@ -36,34 +36,15 @@ function Login({ onLoginSuccess }) {
     setSubmitting(true);
 
     try {
-      // Ambil semua user yang terdaftar dari MockAPI (lewat Register)
-      const users = await getUsers();
+      // Validasi email & password dilakukan di server (bukan di browser lagi)
+      const user = await loginUser({ email, password });
 
-      const found = users.find(
-        (u) => u.email === email && u.password === password
-      );
-
-      setSubmitting(false);
-
-      if (!found) {
-        setError("Email atau password salah. Belum punya akun? Daftar dulu.");
-        return;
-      }
-
-      if (found) {
-
-        localStorage.setItem("currentUser", JSON.stringify(found));
-
-        if (onLoginSuccess) {
-          onLoginSuccess(found);
-        }
-      }
-
+      onLoginSuccess && onLoginSuccess(user);
       navigate("/home");
     } catch (err) {
+      setError(err.message || "Email atau password salah.");
+    } finally {
       setSubmitting(false);
-      setError("Gagal terhubung ke server. Coba lagi.");
-      console.error(err);
     }
   };
 
@@ -96,8 +77,9 @@ function Login({ onLoginSuccess }) {
             Belum punya akun? <Link to="/register">Daftar</Link>
           </span>
 
-          <Link to="/forget">
-            Lupa kata sandi? </Link>
+          <a href="#" className="forgot-password">
+            Lupa kata sandi?
+          </a>
         </div>
 
         <div className="mb-3">

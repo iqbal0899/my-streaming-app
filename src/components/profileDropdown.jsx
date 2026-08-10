@@ -1,12 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "../css/profileDropdown.css"
-import profile from "../assets/big-hero.png";
+import "../css/profileDropdown.css";
+import profileDefault from "../assets/big-hero.png";
 
-function ProfileDropdown({ name, email, image, subscription, onLogout }) {
+function ProfileDropdown({ user, onLogout }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handler = (e) => {
@@ -22,63 +20,46 @@ function ProfileDropdown({ name, email, image, subscription, onLogout }) {
     };
   }, []);
 
-  function handleProfileClick() {
+  const handleLogout = () => {
     setOpen(false);
-    navigate("/profile");
-  }
+    onLogout && onLogout();
+  };
 
-  function handleSubscriptionClick() {
-    setOpen(false);
-    navigate("/pricing");
-  }
-
-  function handleRiwayatClick() {
-    setOpen(false);
-    navigate("/riwayat-transaksi");
-  }
+  const displayName = user?.nama || "Pengguna";
+  const displayEmail = user?.email || "-";
+  // foto_profile dari database (kalau ada), fallback ke gambar default
+  const displayPhoto = user?.foto_profile || profileDefault;
 
   return (
-    <div className="profile-container" ref={menuRef}> 
+    <div className="profile-container" ref={menuRef}>
       <img
-        src={image || profile}
+        src={displayPhoto}
         alt="Profile"
         className="profile-image"
         onClick={() => setOpen(!open)}
-      /> 
+      />
 
       {open && (
         <div className="dropdown-menu">
-
           <div className="dropdown-header">
-            <img src={profile} alt="Profile" /> 
+            <img src={displayPhoto} alt="Profile" />
             <div>
-              <h4>{name}</h4>
-              <span>{email}</span>
+              <h4>{displayName}</h4>
+              <span>{displayEmail}</span>
             </div>
           </div>
 
           <hr />
 
-          <button className="dropdown-item" onClick={handleProfileClick}>
-            👤 Profile Saya
-          </button>
-
-          <button className="dropdown-item" onClick={handleSubscriptionClick}>
-            {subscription?.name ? `Berlangganan ${subscription.name}` : 'Belum Berlangganan'}
-          </button>
-
-          <button className="dropdown-item" onClick={handleRiwayatClick}>
-            🧾 Riwayat Transaksi
-          </button>
-
-          <button className="dropdown-item logout" onClick={onLogout}>
+          <button className="dropdown-item">👤 Profile Saya</button>
+          <button className="dropdown-item">⭐ Premium</button>
+          <button className="dropdown-item logout" onClick={handleLogout}>
             🚪 Keluar
           </button>
-
         </div>
       )}
     </div>
   );
 }
 
-export default ProfileDropdown; 
+export default ProfileDropdown;

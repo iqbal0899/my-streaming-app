@@ -19,6 +19,7 @@
     margin-bottom: 25px;
 }
 
+.users-input-name,
 .users-input-email,
 .users-input-password {
     flex: 1;
@@ -26,6 +27,7 @@
     padding: 12px;
     margin-right: 5px;
     margin-bottom: 10px;
+    border: 1px solid #222;
 }
 
 .btn-btn {
