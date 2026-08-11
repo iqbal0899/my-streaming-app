@@ -44,6 +44,15 @@ export async function updateUser(id, data) {
   }
 }
 
+export async function patchUser(id, data) {
+  try{
+    const res = await axiosApi.patch('/users/${id}', data);
+    return res.data;
+  }catch (err) {
+    throw toErrorMessage(err)
+  }
+}
+
 export async function deleteUser(id) {
   try {
     const res = await axiosApi.delete(`/users/${id}`);
