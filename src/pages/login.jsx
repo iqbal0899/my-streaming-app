@@ -37,9 +37,11 @@ function Login({ onLoginSuccess }) {
 
     try {
       // Validasi email & password dilakukan di server (bukan di browser lagi)
-      const user = await loginUser({ email, password });
+      const result = await loginUser({ email, password });
 
-      onLoginSuccess && onLoginSuccess(user);
+      localStorage.setItem("token", result.token);
+
+      onLoginSuccess && onLoginSuccess(result.user);
       navigate("/home");
     } catch (err) {
       setError(err.message || "Email atau password salah.");

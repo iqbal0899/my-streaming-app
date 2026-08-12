@@ -64,11 +64,16 @@ export async function deleteUser(id) {
 
 // Login divalidasi di SERVER (password tidak pernah dikirim ke browser
 // lewat getUsers()), lewat endpoint khusus POST /users/login.
-export async function loginUser({ email, password }) {
-  try {
-    const res = await axiosApi.post("/users/login", { email, password });
-    return res.data; // -> user (tanpa password)
-  } catch (err) {
-    throw toErrorMessage(err); // kalau salah, err.message berisi "Email atau password salah"
-  }
+export async function loginUser(data) {
+    try {
+        const response = await axiosApi.post("/users/login", data);
+
+        return response.data;
+    } catch (err) {
+        const backendMessage = err.response?.data?.message;
+
+        throw new Error(
+            backendMessage || err.message || "Login gagal", { cause: err }
+        );
+        }
 }
