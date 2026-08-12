@@ -3,6 +3,7 @@ import "../css/profileDropdown.css";
 import profileDefault from "../assets/big-hero.png";
 
 function ProfileDropdown({ user, onLogout }) {
+  console.log("DATA USER PROFILE:", user);
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
 
@@ -25,10 +26,9 @@ function ProfileDropdown({ user, onLogout }) {
     onLogout && onLogout();
   };
 
-  const displayName = user?.nama || "Pengguna";
-  const displayEmail = user?.email || "-";
-  // foto_profile dari database (kalau ada), fallback ke gambar default
-  const displayPhoto = user?.foto_profile || profileDefault;
+const displayName = user?.nama || "Pengguna";
+const displayEmail = user?.email || "-";
+const displayPhoto = user?.foto_profile || profileDefault;
 
   return (
     <div className="profile-container" ref={menuRef}>

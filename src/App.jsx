@@ -51,6 +51,7 @@ function AppContent() {
 
   // Ambil semua state dari Redux store (menggantikan useState sebelumnya)
   const auth = useSelector((state) => state.auth.auth);
+  console.log("AUTH DI APP:", auth);
   const subscription = useSelector((state) => state.auth.subscription);
   const selectedPlan = useSelector((state) => state.checkout.selectedPlan);
   const selectedMetode = useSelector((state) => state.checkout.selectedMetode);
@@ -74,6 +75,7 @@ function AppContent() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     dispatch(logout());
   };
 
@@ -139,7 +141,7 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Home auth={auth} subscription={subscription} onLogout={handleLogout} />
+              <Home auth={auth} onLogout={handleLogout} />
             </>
           ) : (
             <Navigate to="/" replace />
@@ -153,7 +155,7 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
+              <Navbar auth={auth} onLogout={handleLogout} />
               <Users />
             </>
           ) : (
@@ -168,7 +170,7 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
+              <Navbar auth={auth} onLogout={handleLogout} />
               {expiredNotice && (
                 <div className="expired-banner">
                   Waktu pembayaran habis. Silakan pilih paket kembali.
@@ -196,7 +198,7 @@ function AppContent() {
             <Navigate to="/pricing" replace />
           ) : (
             <>
-              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
+              <Navbar auth={auth} onLogout={handleLogout} />
               <Checkout
                 plan={selectedPlan}
                 onKembali={handleKembaliKePricing}
@@ -218,7 +220,7 @@ function AppContent() {
             <Navigate to="/pricing" replace />
           ) : (
             <>
-              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
+              <Navbar auth={auth} onLogout={handleLogout} />
               <Payment
                 plan={selectedPlan}
                 metode={selectedMetode}
@@ -238,8 +240,8 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
-              <Profile subscription={subscription} />
+              <Navbar auth={auth} onLogout={handleLogout} />
+              <Profile />
             </>
           ) : (
             <Navigate to="/" replace />
@@ -253,7 +255,7 @@ function AppContent() {
         element={
           auth ? (
             <>
-              <Navbar auth={auth} subscription={subscription} onLogout={handleLogout} />
+              <Navbar auth={auth} onLogout={handleLogout} />
               <RiwayatTransaksi />
             </>
           ) : (

@@ -56,10 +56,10 @@ function Login({ onLoginSuccess }) {
         <img src={Logo} alt="Logo" className="logo" />
         <h2>Masuk</h2>
 
-        <h3>Username</h3>
+        <h3>Email</h3>
         <input
           type="email"
-          placeholder="Username"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />

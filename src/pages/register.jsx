@@ -8,7 +8,8 @@ import { getUsers, createUser } from "../services/api/userApi";
 
 function Register() {
   const [nama, setNama] = useState("");
-  const [username, setUsername] = useState(""); // dipakai sebagai email
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("")// dipakai sebagai email
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,8 +20,11 @@ function Register() {
     if (!nama.trim()) {
       return "Nama tidak boleh kosong";
     }
-    if (!username.includes("@")) {
-      return "Username harus berupa email (mengandung karakter @)";
+    if (!username.trim()) {
+      return "username harus diisi";
+    }
+    if (!email.includes("@")) {
+      return "Email harus berupa (mengandung karakter @)";
     }
     if (password.length < 6) {
       return "Password minimal 6 karakter";
@@ -30,7 +34,7 @@ function Register() {
     }
 
     const users = await getUsers();
-    if (users.some((u) => u.email === username)) {
+    if (users.some((u) => u.email === email)) {
       return "Email ini sudah terdaftar, silakan login";
     }
 
@@ -50,7 +54,7 @@ function Register() {
         return;
       }
 
-      await createUser({ nama, email: username, password });
+      await createUser({ nama, username, email: email, password });
 
       setSubmitting(false);
       navigate("/"); // balik ke halaman Login
@@ -77,10 +81,18 @@ function Register() {
 
         <h3>Username</h3>
         <input
-          type="email"
-          placeholder="Masukkan email sebagai username"
+          type="text"
+          placeholder="Masukkan username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <h3>Email</h3>
+        <input
+          type="email"
+          placeholder="Masukkan Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <h3>Kata Sandi</h3>
