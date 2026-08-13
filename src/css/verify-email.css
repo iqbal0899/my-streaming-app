@@ -1,0 +1,149 @@
+/* =========================
+   VERIFY EMAIL
+========================= */
+
+.verify-email {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #0f0f0f;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.verify-email-card {
+    width: 100%;
+    max-width: 450px;
+
+    background: #1a1a1a;
+    padding: 40px 35px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    box-sizing: border-box;
+}
+
+
+/* Logo */
+
+.verify-email-logo {
+    width: 100px;
+    height: auto;
+
+    margin-bottom: 20px;
+}
+
+
+/* Judul */
+
+.verify-email-card h2 {
+    margin: 0 0 15px;
+
+    color: #ffffff;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+/* Text */
+
+.verify-email-card p {
+    margin: 10px 0;
+
+    color: #bdbdbd;
+
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+/* Success */
+
+.verify-success {
+    color: #4caf50 !important;
+
+    font-weight: 600;
+}
+
+
+/* Error */
+
+.verify-error {
+    color: #e50914 !important;
+
+    font-weight: 600;
+}
+
+
+/* Button */
+
+.verify-email-button {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 12px 25px;
+
+    background: #e50914;
+    color: white;
+
+    border: none;
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.verify-email-button:hover {
+    background: #b20710;
+
+    transform: translateY(-2px);
+}
+
+
+/* Loading */
+
+.verify-loading {
+    color: #ffffff !important;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 480px) {
+
+    .verify-email {
+        padding: 15px;
+    }
+
+    .verify-email-card {
+        padding: 30px 20px;
+    }
+
+    .verify-email-card h2 {
+        font-size: 24px;
+    }
+
+    .verify-email-card p {
+        font-size: 14px;
+    }
+
+    .verify-email-logo {
+        width: 80px;
+    }
+}

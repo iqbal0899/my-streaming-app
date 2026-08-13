@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../css/footer.css"
 import Logo from "../assets/Logo.png";
 
@@ -85,10 +86,18 @@ export default function Footer() {
             onToggle={(state) => toggleMenu("genre", state)}
           >
             <div className="footer__genres">
+
               {GENRES.map((genre) => (
-                <a key={genre} href="#" className="footer__genre-chip">
+
+                <Link
+                  key={genre}
+                  to={`/film?genre=${encodeURIComponent(genre)}`}
+                  className="footer__genre-chip"
+                  onClick={() => setOpenMenu(null)}
+                >
                   {genre}
-                </a>
+                </Link>
+
               ))}
             </div>
           </FooterDropdown>

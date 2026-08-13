@@ -4,12 +4,12 @@ import "../css/register.css";
 import Logo from "../assets/Logo.png";
 import Button from "../components/button";
 import GoogleButton from "../components/buttonGoogle";
-import { getUsers, createUser } from "../services/api/userApi";
+import { checkEmail, createUser } from "../services/api/userApi";
 
 function Register() {
   const [nama, setNama] = useState("");
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("")// dipakai sebagai email
+  const [email, setEmail] = useState(""); // dipakai sebagai email
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -33,8 +33,11 @@ function Register() {
       return "Konfirmasi password tidak sama dengan password";
     }
 
-    const users = await getUsers();
-    if (users.some((u) => u.email === email)) {
+    const verificationLink =
+    `http://localhost:5173/verify-email/${token}`;
+
+    const result = await checkEmail(email.trim());
+    if (result.exists) {
       return "Email ini sudah terdaftar, silakan login";
     }
 

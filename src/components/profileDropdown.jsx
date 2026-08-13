@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/profileDropdown.css";
 import profileDefault from "../assets/big-hero.png";
 
 function ProfileDropdown({ user, onLogout }) {
-  console.log("DATA USER PROFILE:", user);
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handler = (e) => {
@@ -26,9 +27,21 @@ function ProfileDropdown({ user, onLogout }) {
     onLogout && onLogout();
   };
 
-const displayName = user?.nama || "Pengguna";
-const displayEmail = user?.email || "-";
-const displayPhoto = user?.foto_profile || profileDefault;
+  const displayName = user?.nama || "Pengguna";
+  const displayEmail = user?.email || "-";
+
+  console.log("USER DROPDOWN:", user);
+console.log("FOTO DROPDOWN:", user?.foto_profile);
+console.log(
+  "URL FOTO:",
+  user?.foto_profile
+    ? `${import.meta.env.VITE_API_BASE_URL.replace("/api/v1", "")}/uploads/${user.foto_profile}`
+    : "Tidak ada foto"
+);
+
+  const displayPhoto = user?.foto_profile
+    ? `${import.meta.env.VITE_API_BASE_URL.replace("/api/v1", "")}/uploads/${user.foto_profile}`
+    : profileDefault;
 
   return (
     <div className="profile-container" ref={menuRef}>
@@ -51,7 +64,15 @@ const displayPhoto = user?.foto_profile || profileDefault;
 
           <hr />
 
-          <button className="dropdown-item">👤 Profile Saya</button>
+          <button
+            className="dropdown-item"
+            onClick={() => {
+              setOpen(false);
+              navigate("/profile");
+            }}
+          >
+            👤 Profile Saya
+          </button>
           <button className="dropdown-item">⭐ Premium</button>
           <button className="dropdown-item logout" onClick={handleLogout}>
             🚪 Keluar

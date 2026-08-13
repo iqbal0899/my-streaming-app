@@ -1,152 +1,113 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../css/register.css";
-import Logo from "../assets/Logo.png";
-import Button from "../components/button";
-// import GoogleButton from "../components/buttonGoogle";
-import { getUsers, updateUser } from "../services/api/userApi";
+import { Link } from "react-router-dom";
+import { forgotPassword } from "../services/api/userApi";
+import "../css/lupa-password.css";
 
-function Forget() {
-  const [email, setEmail ] = useState("");
-  const [passwordLama, setPasswordLama] = useState("");
-  const [passwordBaru, setPasswordBaru] = useState("");
+function LupaPassword() {
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+    const handleForgotPassword = async (e) => {
+        e.preventDefault();
 
-  const handleForget = async (e) => {
-    e.preventDefault();
+        setError("");
+        setSuccess("");
 
-    setError("");
-    setSuccess("");
-    setSubmitting(true);
-
-    try {
         if (!email.trim()) {
-            setError("Email Harus Diisi")
-            return; 
-        }
-
-        if (!email.includes("@")) {
-            setError("Email Harus Mengandung Karakter @")
+            setError("Email wajib diisi");
             return;
         }
 
-        if (passwordBaru.length < 6) {
-            setError("Password Minimal 6 Karakter");
-            setSubmitting(false)
-            return;
+        try {
+            setLoading(true);
+
+            await forgotPassword(email.trim());
+
+            setSuccess(
+                "Link reset password berhasil dikirim ke Gmail kamu."
+            );
+
+        } catch (error) {
+            setError(error.message);
+
+        } finally {
+            setLoading(false);
         }
+    };
 
-        const users = await getUsers();
+    return (
+        <div className="forgot-page">
 
-        const user = users.find(
-            (u) => u.email === email
-        );
+            <div className="forgot-container">
 
+                <div className="forgot-header">
+                    <h2>Lupa Password?</h2>
 
-            
+                    <p>
+                        Masukkan email yang terdaftar.
+                        Link reset password akan dikirim
+                        ke email kamu.
+                    </p>
+                </div>
 
-        
-        //VALIDASI EMAIL
-        if(!user){
-            setError("Email Tidak Terdaftar")
-            return;
-        }
+                <form
+                    className="forgot-form"
+                    onSubmit={handleForgotPassword}
+                >
 
-        //validasi password lama
+                    <div className="forgot-input-group">
 
-        if (user.password !== passwordLama) {
-            setError("Password salah");
-            setSubmitting(false)
-            return;
-        }
+                        <label>Email</label>
 
-        if (passwordBaru === passwordLama){
-            setError("Password Baru Tidak Boleh Sama Dengan Password Lama")
-            setSubmitting(false)
-            return;
-        }
+                        <input
+                            type="email"
+                            placeholder="Masukkan email"
+                            value={email}
+                            onChange={(e) =>
+                                setEmail(e.target.value)
+                            }
+                        />
 
-        //update data ke mockAPI
+                    </div>
 
-        await updateUser(user.id, {
-            ...user,
-            password: passwordBaru,
-        });
+                    {error && (
+                        <p className="forgot-error">
+                            {error}
+                        </p>
+                    )}
 
-        setSuccess("Password Berhasil Diubah");
+                    {success && (
+                        <p className="forgot-success">
+                            {success}
+                        </p>
+                    )}
 
-        //setelah sukses kosongkan form
-        setEmail("");
-        setPasswordLama("");
-        setPasswordBaru("");
+                    <button
+                        type="submit"
+                        className="forgot-button"
+                        disabled={loading}
+                    >
+                        {loading
+                            ? "Mengirim..."
+                            : "Reset Password"
+                        }
+                    </button>
 
-        //setelah update password => halaman login
+                </form>
 
-        setTimeout(() => {
-            navigate("/login");
-        }, 1500);
+                <div className="forgot-footer">
+                    <Link to="/login">
+                        Kembali ke Login
+                    </Link>
+                </div>
 
-      }catch (err) {
-        console.error(err);
-        setError("Gagal Terhubung Ke Server");
-      }finally{
-        setSubmitting(false);
-      }
-  };
+            </div>
 
-  return (
-    <div className="container-regis">
-      <form onSubmit={handleForget} className="register-form">
-        <img src={Logo} alt="Logo" className="logo" />
-        <h2>Lupa Password</h2>
-
-        <h3>Email</h3>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <h3>Kata Sandi Lama</h3>
-        <input
-          type="password"
-          placeholder="Kata Sandi Lama"
-          value={passwordLama ?? ""}
-          onChange={(e) => setPasswordLama(e.target.value)}
-        />
-
-        <h3>Kata Sandi Baru</h3>
-        <input
-          type="password"
-          placeholder="Minimal 6 karakter"
-          value={passwordBaru ?? ""}
-          onChange={(e) => setPasswordBaru(e.target.value)}
-        />
-
-        {error && <p className="register-error">{error}</p>}
-
-        {/* <div className="akun">
-          <span>
-            Sudah punya akun? <Link to="/login">Masuk</Link>
-          </span>
-        </div> */}
-
-        <div className="mb-3">
-          <Button type="submit" disabled={submitting}>
-            {submitting ? "Loading..." : "Simpan"}
-          </Button>
         </div>
-
-        {/* <GoogleButton> Daftar Dengan Google </GoogleButton> */}
-      </form>
-    </div>
-  );
+    );
 }
 
-export default Forget;
+export default LupaPassword;

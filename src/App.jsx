@@ -19,8 +19,16 @@ import Checkout from "./transactions/checkout";
 import Payment from "./transactions/payment";
 import Profile from "./components/profileUsers";
 import RiwayatTransaksi from "./report/transactionHistory";
+import Search from "./components/search";
+import Film from "./components/film";
+import ResetPassword from "./components/reset-password";
+import VerifyEmail from "./components/verifyEmail";
 import { loginSuccess, logout, confirmPayment } from "./store/authSlice";
-import { pilihPaket, pilihMetode, setExpiredNotice } from "./store/checkoutSlice";
+import {
+  pilihPaket,
+  pilihMetode,
+  setExpiredNotice,
+} from "./store/checkoutSlice";
 
 // Cek apakah user punya sesi pembayaran yang masih berjalan (belum expired,
 // belum sukses) untuk paket yang sedang dipilih. Sumbernya deadline yang
@@ -51,8 +59,6 @@ function AppContent() {
 
   // Ambil semua state dari Redux store (menggantikan useState sebelumnya)
   const auth = useSelector((state) => state.auth.auth);
-  console.log("AUTH DI APP:", auth);
-  const subscription = useSelector((state) => state.auth.subscription);
   const selectedPlan = useSelector((state) => state.checkout.selectedPlan);
   const selectedMetode = useSelector((state) => state.checkout.selectedMetode);
   const expiredNotice = useSelector((state) => state.checkout.expiredNotice);
@@ -87,7 +93,7 @@ function AppContent() {
   function handlePilihPaket(plan) {
     if (activePayment && activePayment.plan.id !== plan.id) {
       alert(
-        `Kamu masih punya pembayaran yang belum selesai untuk paket "${activePayment.plan.name}". Selesaikan dulu sebelum memilih paket lain.`
+        `Kamu masih punya pembayaran yang belum selesai untuk paket "${activePayment.plan.name}". Selesaikan dulu sebelum memilih paket lain.`,
       );
       navigate("/payment");
       return;
@@ -127,7 +133,10 @@ function AppContent() {
       />
 
       {/* Halaman login */}
-      <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+      <Route
+        path="/login"
+        element={<Login onLoginSuccess={handleLoginSuccess} />}
+      />
 
       {/* Halaman registrasi */}
       <Route path="/register" element={<Register />} />
@@ -266,6 +275,13 @@ function AppContent() {
 
       {/* Path tidak dikenali -> kembali ke login */}
       <Route path="*" element={<Navigate to="/login" replace />} />
+
+      <Route path="/search" element={<Search />} />
+      <Route path="/film" element={<Film />} />
+
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+      <Route path="/verify-email/:token" element={<VerifyEmail />} />
     </Routes>
   );
 }

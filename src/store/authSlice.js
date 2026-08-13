@@ -72,4 +72,6 @@ export const {
     confirmPayment,
 } = authSlice.actions;
 
+
+
 export default authSlice.reducer;

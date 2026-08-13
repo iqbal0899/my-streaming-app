@@ -26,13 +26,34 @@ export async function getUserById(id) {
 }
 
 // data: { nama, email, password, foto_profile }
-export async function createUser(data) {
-  try {
-    const res = await axiosApi.post("/users", data);
-    return res.data;
-  } catch (err) {
-    throw toErrorMessage(err);
-  }
+export async function createUser(userData) {
+    try {
+        const response = await axiosApi.post(
+            "/users",
+            userData
+        );
+
+        return response.data;
+
+    } catch (err) {
+
+        console.error(
+            "CREATE USER ERROR:",
+            err.response?.data
+        );
+
+        console.error(
+            "STATUS:",
+            err.response?.status
+        );
+
+        console.error(
+            "FULL ERROR:",
+            err
+        );
+
+        throw toErrorMessage(err);
+    }
 }
 
 export async function updateUser(id, data) {
@@ -45,12 +66,17 @@ export async function updateUser(id, data) {
 }
 
 export async function patchUser(id, data) {
-  try{
-    const res = await axiosApi.patch('/users/${id}', data);
-    return res.data;
-  }catch (err) {
-    throw toErrorMessage(err)
-  }
+    try {
+        const res = await axiosApi.patch(
+            `/users/${id}`,
+            data
+        );
+
+        return res.data;
+
+    } catch (err) {
+        throw toErrorMessage(err);
+    }
 }
 
 export async function deleteUser(id) {
@@ -77,3 +103,81 @@ export async function loginUser(data) {
         );
         }
 }
+
+
+export async function forgotPassword(email) {
+    try {
+        const response = await axiosApi.post(
+            "/users/forgot-password",
+            {
+                email
+            }
+        );
+
+        return response.data;
+
+    } catch (err) {
+        throw toErrorMessage(err);
+    }
+}
+
+export async function checkEmail(email) {
+    try {
+        const response = await axiosApi.get("/users/check-email", {
+            params: {
+                email
+            }
+        });
+
+        return response.data;
+
+    } catch (err) {
+        throw toErrorMessage(err);
+    }
+}
+
+export async function verifyEmail(token) {
+    try {
+        const response = await axiosApi.get(
+            `/users/verify-email/${token}`
+        );
+
+        return response.data;
+
+    } catch (err) {
+        throw toErrorMessage(err);
+    }
+}
+
+export async function getMyProfile() {
+  try {
+    const response = await axiosApi.get("/users/profile");
+
+    return response.data;
+  } catch (err) {
+    throw toErrorMessage(err);
+  }
+}
+
+export async function uploadProfilePhoto(file) {
+  try {
+    const formData = new FormData();
+    formData.append("foto_profile", file);
+ 
+    const response = await axiosApi.post("/users/profile/photo", formData, {
+      // PENTING: jangan set "Content-Type": "application/json" untuk request ini.
+      // Kalau instance axiosApi kamu punya default header JSON secara global,
+      // override di sini supaya axios otomatis set multipart/form-data + boundary.
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+ 
+    return response.data; // -> { message, foto_profile }
+  } catch (err) {
+    console.error("UPLOAD ERROR:", err.response?.data);
+    console.error("STATUS:", err.response?.status);
+    console.error("URL:", err.config?.url);
+ 
+    throw toErrorMessage(err);
+  }
+}
+
